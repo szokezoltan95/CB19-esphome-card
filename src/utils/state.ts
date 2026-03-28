@@ -24,6 +24,30 @@ function safeNumberState(hass: any, entityId: string): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+function normalizeStateLabel(rawState: string): string {
+  const s = rawState.trim().toLowerCase();
+
+  switch (s) {
+    case "opening":
+      return "Opening";
+    case "closing":
+      return "Closing";
+    case "open":
+      return "Open";
+    case "closed":
+      return "Closed";
+    case "pedopening":
+      return "Ped Opening";
+    case "pedopened":
+    case "pedopen":
+      return "Ped Open";
+    case "stopped":
+      return "Stopped";
+    default:
+      return rawState || "Unknown";
+  }
+}
+
 export function computeGateStatus(hass: any, entities: GateEntities): GateStatus {
   const rawState = safeState(hass, entities.gateState);
   const lastAck = safeState(hass, entities.lastAck);
@@ -38,33 +62,22 @@ export function computeGateStatus(hass: any, entities: GateEntities): GateStatus
 
   const position = safeNumberState(hass, entities.gatePosition);
 
-  let label = "Unknown";
+  let label = normalizeStateLabel(rawState);
 
   if (obstruction) {
     label = "Obstructed";
-  } else if (manualStop) {
+  } else if (manualStop && !rawState) {
     label = "Stopped";
-  } else if (moving) {
-    if (rawState) {
-      const normalized = rawState.toLowerCase();
-      if (normalized.includes("open")) {
-        label = "Opening";
-      } else if (normalized.includes("close")) {
-        label = "Closing";
-      } else {
-        label = "Moving";
-      }
-    } else {
+  } else if (!rawState) {
+    if (moving) {
       label = "Moving";
+    } else if (pedOpened) {
+      label = "Ped Open";
+    } else if (fullyOpened) {
+      label = "Open";
+    } else if (fullyClosed) {
+      label = "Closed";
     }
-  } else if (pedOpened) {
-    label = "Ped Open";
-  } else if (fullyOpened) {
-    label = "Open";
-  } else if (fullyClosed) {
-    label = "Closed";
-  } else if (rawState) {
-    label = rawState;
   }
 
   return {

@@ -1,3 +1,5 @@
+export type PedestrianSide = "left" | "right" | false;
+
 export interface Cb19GateCardConfig {
   type: string;
   controller: string;
@@ -5,6 +7,7 @@ export interface Cb19GateCardConfig {
   show_controls?: boolean;
   show_status?: boolean;
   show_debug?: boolean;
+  pedestrian_side?: PedestrianSide;
   entities?: Partial<GateEntitiesConfig>;
 }
 

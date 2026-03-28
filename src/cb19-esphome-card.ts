@@ -18,11 +18,19 @@ export class Cb19GateCard extends LitElement {
       throw new Error("Missing required option: controller");
     }
 
+    const pedestrianSide =
+      config.pedestrian_side === false
+        ? false
+        : config.pedestrian_side === "right"
+          ? "right"
+          : "left";
+
     this._config = {
       title: "Gate",
       show_controls: true,
       show_status: true,
       show_debug: false,
+      pedestrian_side: pedestrianSide,
       ...config,
     };
   }
@@ -107,8 +115,15 @@ export class Cb19GateCard extends LitElement {
   }
 
   private _renderControls(entities: GateEntities) {
+    const showPedestrian = this._config?.pedestrian_side !== false;
+
     return html`
-      <div class="controls">
+      <div
+        class="controls"
+        style=${showPedestrian
+          ? "grid-template-columns: repeat(4, minmax(0, 1fr));"
+          : "grid-template-columns: repeat(3, minmax(0, 1fr));"}
+      >
         <button
           class="icon-btn primary"
           title="Open"
@@ -133,13 +148,17 @@ export class Cb19GateCard extends LitElement {
           <ha-icon icon="mdi:gate"></ha-icon>
         </button>
 
-        <button
-          class="icon-btn"
-          title="Pedestrian Open"
-          @click=${() => this._pressButton(entities.pedestrianButton)}
-        >
-          <ha-icon icon="mdi:walk"></ha-icon>
-        </button>
+        ${showPedestrian
+          ? html`
+              <button
+                class="icon-btn"
+                title="Pedestrian Open"
+                @click=${() => this._pressButton(entities.pedestrianButton)}
+              >
+                <ha-icon icon="mdi:walk"></ha-icon>
+              </button>
+            `
+          : nothing}
       </div>
     `;
   }
@@ -174,7 +193,7 @@ export class Cb19GateCard extends LitElement {
           ${this._renderFlags(status)}
 
           <div class="visual-box">
-            ${renderGateSvg(status)}
+            ${renderGateSvg(status, this._config?.pedestrian_side ?? "left")}
           </div>
 
           ${this._config.show_status ? this._renderMeta(status) : nothing}

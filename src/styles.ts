@@ -151,4 +151,10 @@ export const cardStyles = css`
     word-break: break-word;
     margin-top: 2px;
   }
+  
+  .gate-svg #left-wing-group,
+  .gate-svg #right-wing-group {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
 `;
