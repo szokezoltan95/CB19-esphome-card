@@ -600,6 +600,9 @@ const Gt = mt`
     position: relative;
     width: 100%;
     min-height: 88px;
+
+    padding: 4px 8px 2px;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -616,9 +619,8 @@ const Gt = mt`
   .gate-svg {
     display: block;
     width: 100%;
-    max-width: none;
     height: auto;
-    max-height: 112px;
+    max-height: 104px;
   }
 
   .overlay-badges {
@@ -665,8 +667,8 @@ const Gt = mt`
 
   .settings-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 8px;
+    right: 8px;
     z-index: 5;
 
     appearance: none;
