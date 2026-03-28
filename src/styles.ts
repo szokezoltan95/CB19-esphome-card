@@ -18,82 +18,18 @@ export const cardStyles = css`
     border-radius: 16px;
   }
 
-  .top-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    min-height: 20px;
-  }
-
-  .settings-btn {
-    appearance: none;
-    border: none;
-    background: transparent;
-    color: var(--secondary-text-color);
-    width: 28px;
-    height: 28px;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.12s ease, color 0.12s ease;
-  }
-
-  .settings-btn:hover {
-    background: var(--secondary-background-color);
-    color: var(--primary-text-color);
-  }
-
-  .settings-btn ha-icon {
-    width: 18px;
-    height: 18px;
-  }
-
   .wrapper {
     display: grid;
-    grid-template-rows: auto auto auto auto auto;
-    gap: 8px;
-    padding: 10px 12px 10px;
-    width: 100%;
-  }
-
-  .flags-row {
-    min-height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    grid-template-rows: auto auto auto;
     gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .flag {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
-    border-radius: 999px;
-    font-size: 0.72rem;
-    line-height: 1;
-    font-weight: 600;
-    background: var(--secondary-background-color);
-    color: var(--secondary-text-color);
-    white-space: nowrap;
-  }
-
-  .flag.warn {
-    background: color-mix(in srgb, var(--warning-color, #ff9800) 18%, transparent);
-    color: var(--warning-color, #ff9800);
-  }
-
-  .flag.error {
-    background: color-mix(in srgb, var(--error-color) 18%, transparent);
-    color: var(--error-color);
+    padding: 8px 10px 8px;
+    width: 100%;
   }
 
   .visual-box {
+    position: relative;
     width: 100%;
-    min-height: 96px;
+    min-height: 88px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,7 +48,79 @@ export const cardStyles = css`
     width: 100%;
     max-width: none;
     height: auto;
-    max-height: 120px;
+    max-height: 112px;
+  }
+
+  .overlay-badges {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .overlay-badges-inner {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 80%;
+  }
+
+  .flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    line-height: 1;
+    font-weight: 600;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
+  }
+
+  .flag.warn {
+    background: color-mix(in srgb, var(--warning-color, #ff9800) 22%, var(--card-background-color));
+    color: var(--warning-color, #ff9800);
+  }
+
+  .flag.error {
+    background: color-mix(in srgb, var(--error-color) 22%, var(--card-background-color));
+    color: var(--error-color);
+  }
+
+  .settings-btn {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 2;
+    appearance: none;
+    border: none;
+    background: color-mix(in srgb, var(--card-background-color) 84%, transparent);
+    color: var(--secondary-text-color);
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
+  }
+
+  .settings-btn:hover {
+    background: var(--secondary-background-color);
+    color: var(--primary-text-color);
+    transform: translateY(-1px);
+  }
+
+  .settings-btn ha-icon {
+    width: 18px;
+    height: 18px;
   }
 
   .meta-row {
@@ -120,7 +128,7 @@ export const cardStyles = css`
     align-items: center;
     justify-content: center;
     gap: 10px;
-    min-height: 20px;
+    min-height: 18px;
     font-size: 0.82rem;
     line-height: 1;
   }
@@ -150,7 +158,7 @@ export const cardStyles = css`
     appearance: none;
     border: none;
     border-radius: 12px;
-    min-height: 40px;
+    min-height: 36px;
     background: var(--secondary-background-color);
     color: var(--primary-text-color);
     display: inline-flex;
@@ -191,11 +199,5 @@ export const cardStyles = css`
     line-height: 1.45;
     word-break: break-word;
     margin-top: 2px;
-  }
-  
-  .gate-svg #left-wing-group,
-  .gate-svg #right-wing-group {
-    transform-box: fill-box;
-    transform-origin: center;
   }
 `;

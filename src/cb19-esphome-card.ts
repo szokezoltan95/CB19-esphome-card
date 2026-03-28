@@ -91,19 +91,32 @@ export class Cb19GateCard extends LitElement {
       `);
     }
 
-    if (status.manualStop) {
-      flags.push(html`
-        <div class="flag">
-          <ha-icon icon="mdi:hand-back-right"></ha-icon>
-          <span>Stopped</span>
-        </div>
-      `);
+    if (!flags.length) {
+      return nothing;
     }
 
     return html`
-      <div class="flags-row">
-        ${flags.length ? flags : nothing}
+      <div class="overlay-badges">
+        <div class="overlay-badges-inner">
+          ${flags}
+        </div>
       </div>
+    `;
+  }
+  
+  private _renderSettingsButton(entities: GateEntities) {
+    if (this._config?.settings_action === false) {
+      return nothing;
+    }
+
+    return html`
+      <button
+        class="settings-btn"
+        title="Settings"
+        @click=${() => this._openSettings(entities)}
+      >
+        <ha-icon icon="mdi:cog"></ha-icon>
+      </button>
     `;
   }
 
@@ -208,24 +221,6 @@ private _openSettings(entities: GateEntities): void {
   );
 }
 
-  private _renderTopRow(entities: GateEntities) {
-    if (this._config?.settings_action === false) {
-      return html`<div class="top-row"></div>`;
-    }
-
-    return html`
-      <div class="top-row">
-        <button
-          class="settings-btn"
-          title="Settings"
-          @click=${() => this._openSettings(entities)}
-        >
-          <ha-icon icon="mdi:cog"></ha-icon>
-        </button>
-      </div>
-    `;
-  }
-
   private _renderDebug(entities: GateEntities, status: GateStatus) {
     return html`
       <div class="debug-box">
@@ -258,11 +253,10 @@ private _openSettings(entities: GateEntities): void {
     return html`
       <ha-card>
         <div class="wrapper">
-          ${this._renderTopRow(entities)}
-          ${this._renderFlags(status)}
-
           <div class="visual-box">
             ${renderGateSvg(status, this._config?.motor1_side ?? "left")}
+            ${this._renderFlags(status)}
+            ${this._renderSettingsButton(entities)}
           </div>
 
           ${this._config.show_status ? this._renderMeta(status) : nothing}
