@@ -179,37 +179,33 @@ private async _openSettings(entities: GateEntities): Promise<void> {
     return;
   }
 
-  // 👉 melyik entity legyen a device lookup alapja
-  const deviceEntity =
-    this._config.settings_device_entity ||
-    entities.openButton; // EZ A LÉNYEG → mindig működik
-
-  // 👉 melyik entity legyen more-info fallback
-  const moreInfoEntity =
-    this._config.settings_entity ||
-    entities.pedestrianMode;
-
-  // --- MORE INFO mód ---
+  // More-info mód csak akkor fusson, ha kifejezetten ezt kéred
   if (action === "more_info") {
+    const entityId =
+      this._config.settings_entity ||
+      entities.pedestrianMode;
+
     this.dispatchEvent(
       new CustomEvent("hass-more-info", {
         bubbles: true,
         composed: true,
-        detail: { entityId: moreInfoEntity },
+        detail: { entityId },
       })
     );
     return;
   }
 
-  // --- DEVICE PAGE mód ---
+  // Device page mód: mindig az open button entitás device-ját keressük
+  const lookupEntity =
+    this._config.settings_device_entity ||
+    entities.openButton;
+
   try {
     const registry = await this.hass.callWS({
       type: "config/entity_registry/get",
     });
 
-    const entry = registry.find(
-      (e: any) => e.entity_id === deviceEntity
-    );
+    const entry = registry.find((e: any) => e.entity_id === lookupEntity);
 
     if (entry?.device_id) {
       window.history.pushState(
@@ -220,18 +216,11 @@ private async _openSettings(entities: GateEntities): Promise<void> {
       window.dispatchEvent(new Event("location-changed"));
       return;
     }
-  } catch (err) {
-    console.warn("Device lookup failed", err);
-  }
 
-  // --- fallback ---
-  this.dispatchEvent(
-    new CustomEvent("hass-more-info", {
-      bubbles: true,
-      composed: true,
-      detail: { entityId: moreInfoEntity },
-    })
-  );
+    console.warn("CB19 Gate Card: no device_id found for", lookupEntity);
+  } catch (err) {
+    console.warn("CB19 Gate Card: device page lookup failed", err);
+  }
 }
 
   private _renderTopRow(entities: GateEntities) {
