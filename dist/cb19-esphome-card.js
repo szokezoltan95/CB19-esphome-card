@@ -3,7 +3,7 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const B = globalThis, V = B.ShadowRoot && (B.ShadyCSS === void 0 || B.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, F = Symbol(), J = /* @__PURE__ */ new WeakMap();
+const z = globalThis, V = z.ShadowRoot && (z.ShadyCSS === void 0 || z.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, F = Symbol(), J = /* @__PURE__ */ new WeakMap();
 let ct = class {
   constructor(t, e, s) {
     if (this._$cssResult$ = !0, s !== F) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -32,7 +32,7 @@ const $t = (i) => new ct(typeof i == "string" ? i : i + "", void 0, F), mt = (i,
 }, vt = (i, t) => {
   if (V) i.adoptedStyleSheets = t.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
   else for (const e of t) {
-    const s = document.createElement("style"), o = B.litNonce;
+    const s = document.createElement("style"), o = z.litNonce;
     o !== void 0 && s.setAttribute("nonce", o), s.textContent = e.cssText, i.appendChild(s);
   }
 }, Q = V ? (i) => i : (i) => i instanceof CSSStyleSheet ? ((t) => {
@@ -341,7 +341,7 @@ class Ut {
     for (; a !== void 0; ) {
       if (r === a.index) {
         let h;
-        a.type === 2 ? h = new z(n, n.nextSibling, this, t) : a.type === 1 ? h = new a.ctor(n, a.name, a.strings, this, t) : a.type === 6 && (h = new Rt(n, this, t)), this._$AV.push(h), a = s[++l];
+        a.type === 2 ? h = new B(n, n.nextSibling, this, t) : a.type === 1 ? h = new a.ctor(n, a.name, a.strings, this, t) : a.type === 6 && (h = new Rt(n, this, t)), this._$AV.push(h), a = s[++l];
       }
       r !== a?.index && (n = w.nextNode(), r++);
     }
@@ -352,7 +352,7 @@ class Ut {
     for (const s of this._$AV) s !== void 0 && (s.strings !== void 0 ? (s._$AI(t, s, e), e += s.strings.length - 2) : s._$AI(t[e])), e++;
   }
 }
-class z {
+class B {
   get _$AU() {
     return this._$AM?._$AU ?? this._$Cv;
   }
@@ -398,7 +398,7 @@ class z {
     K(this._$AH) || (this._$AH = [], this._$AR());
     const e = this._$AH;
     let s, o = 0;
-    for (const n of t) o === e.length ? e.push(s = new z(this.O(T()), this.O(T()), this, this.options)) : s = e[o], s._$AI(n), o++;
+    for (const n of t) o === e.length ? e.push(s = new B(this.O(T()), this.O(T()), this, this.options)) : s = e[o], s._$AI(n), o++;
     o < e.length && (this._$AR(s && s._$AB.nextSibling, o), e.length = o);
   }
   _$AR(t = this._$AA.nextSibling, e) {
@@ -476,14 +476,14 @@ class Rt {
     C(this, t);
   }
 }
-const zt = M.litHtmlPolyfillSupport;
-zt?.(H, z), (M.litHtmlVersions ?? (M.litHtmlVersions = [])).push("3.3.2");
-const Bt = (i, t, e) => {
+const Bt = M.litHtmlPolyfillSupport;
+Bt?.(H, B), (M.litHtmlVersions ?? (M.litHtmlVersions = [])).push("3.3.2");
+const zt = (i, t, e) => {
   const s = e?.renderBefore ?? t;
   let o = s._$litPart$;
   if (o === void 0) {
     const n = e?.renderBefore ?? null;
-    s._$litPart$ = o = new z(t.insertBefore(T(), n), n, void 0, e ?? {});
+    s._$litPart$ = o = new B(t.insertBefore(T(), n), n, void 0, e ?? {});
   }
   return o._$AI(i), o;
 };
@@ -504,7 +504,7 @@ let U = class extends E {
   }
   update(t) {
     const e = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Bt(e, this.renderRoot, this.renderOptions);
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = zt(e, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
     super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -751,41 +751,40 @@ const Gt = mt`
     filter 0.12s ease;
 }
 
-/* OPEN – mély zöld */
 .icon-btn.open {
   background: #166534;
 }
 
-/* STOP – mély piros */
 .icon-btn.stop {
   background: #7f1d1d;
 }
 
-/* CLOSE – amber (nem rikító) */
 .icon-btn.close {
   background: #92400e;
 }
 
-/* PED – tompított kék */
 .icon-btn.ped {
   background: #1e3a8a;
 }
 
-/* Hover */
+
 .icon-btn:hover {
   filter: brightness(1.08);
 }
 
-/* Active */
+
 .icon-btn:active {
   filter: brightness(0.92);
   transform: scale(0.97);
 }
 
-/* ikon */
 .icon-btn ha-icon {
   width: 18px;
   height: 18px;
+
+  display: block;
+
+  transform: translate(0.5px, 0.5px);
 }
   .debug-box {
     background: var(--secondary-background-color);

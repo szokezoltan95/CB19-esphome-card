@@ -181,41 +181,40 @@ export const cardStyles = css`
     filter 0.12s ease;
 }
 
-/* OPEN – mély zöld */
 .icon-btn.open {
   background: #166534;
 }
 
-/* STOP – mély piros */
 .icon-btn.stop {
   background: #7f1d1d;
 }
 
-/* CLOSE – amber (nem rikító) */
 .icon-btn.close {
   background: #92400e;
 }
 
-/* PED – tompított kék */
 .icon-btn.ped {
   background: #1e3a8a;
 }
 
-/* Hover */
+
 .icon-btn:hover {
   filter: brightness(1.08);
 }
 
-/* Active */
+
 .icon-btn:active {
   filter: brightness(0.92);
   transform: scale(0.97);
 }
 
-/* ikon */
 .icon-btn ha-icon {
   width: 18px;
   height: 18px;
+
+  display: block;
+
+  transform: translate(0.5px, 0.5px);
 }
   .debug-box {
     background: var(--secondary-background-color);
