@@ -35,27 +35,28 @@ function isPedOpening(rawState: string): boolean {
   return rawState.trim().toLowerCase() === "pedopening";
 }
 
-/**
- * Pure X scaling around a fixed hinge pivot.
- * SVG matrix:
- *   [ a c e ]
- *   [ b d f ]
- *   [ 0 0 1 ]
- *
- * For scaleX around pivotX:
- *   a = scaleX
- *   d = 1
- *   e = pivotX * (1 - scaleX)
- */
-function buildWingTransform(openness: number, pivotX: number): string {
+function buildLeftWingStyle(openness: number): string {
   const t = clamp(openness, 0, 1);
-
-  // 1.0 = closed, near 0 = fully open from front view
   const minScale = 0.035;
   const scaleX = Math.max(minScale, Math.cos((t * Math.PI) / 2));
-  const translateX = pivotX * (1 - scaleX);
 
-  return `matrix(${formatNumber(scaleX)} 0 0 1 ${formatNumber(translateX)} 0)`;
+  return [
+    "transform-box: fill-box",
+    "transform-origin: left center",
+    `transform: scaleX(${formatNumber(scaleX)})`,
+  ].join("; ");
+}
+
+function buildRightWingStyle(openness: number): string {
+  const t = clamp(openness, 0, 1);
+  const minScale = 0.035;
+  const scaleX = Math.max(minScale, Math.cos((t * Math.PI) / 2));
+
+  return [
+    "transform-box: fill-box",
+    "transform-origin: right center",
+    `transform: scaleX(${formatNumber(scaleX)})`,
+  ].join("; ");
 }
 
 export function renderGateSvg(status: GateStatus, pedestrianSide: PedestrianSide) {
@@ -85,18 +86,17 @@ export function renderGateSvg(status: GateStatus, pedestrianSide: PedestrianSide
       : 0
     : openRatio;
 
-  // Fixed hinge X coordinates
-  const leftTransform = buildWingTransform(leftRatio, 2252.13);
-  const rightTransform = buildWingTransform(rightRatio, 18265.30);
+  const leftStyle = buildLeftWingStyle(leftRatio);
+  const rightStyle = buildRightWingStyle(rightRatio);
 
   const svgWithTransforms = GATE_SVG
     .replace(
       '<g id="left-wing-group" data-pivot-x="2252.13" data-pivot-y="3896.42">',
-      `<g id="left-wing-group" data-pivot-x="2252.13" data-pivot-y="3896.42" transform="${leftTransform}">`
+      `<g id="left-wing-group" data-pivot-x="2252.13" data-pivot-y="3896.42" style="${leftStyle}">`
     )
     .replace(
       '<g id="right-wing-group" data-pivot-x="18265.30" data-pivot-y="3896.42">',
-      `<g id="right-wing-group" data-pivot-x="18265.30" data-pivot-y="3896.42" transform="${rightTransform}">`
+      `<g id="right-wing-group" data-pivot-x="18265.30" data-pivot-y="3896.42" style="${rightStyle}">`
     );
 
   return html`

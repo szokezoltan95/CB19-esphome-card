@@ -3,9 +3,17 @@ import { css } from "lit";
 export const cardStyles = css`
   :host {
     display: block;
+    box-sizing: border-box;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
   }
 
   ha-card {
+    display: block;
     overflow: hidden;
     border-radius: 16px;
   }
@@ -15,6 +23,7 @@ export const cardStyles = css`
     grid-template-rows: auto auto auto auto;
     gap: 8px;
     padding: 10px 12px 10px;
+    width: 100%;
   }
 
   .flags-row {

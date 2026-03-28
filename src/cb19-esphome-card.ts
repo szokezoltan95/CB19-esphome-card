@@ -36,14 +36,15 @@ export class Cb19GateCard extends LitElement {
   }
 
   public getCardSize(): number {
-    return 2;
+    return 3;
   }
 
   public getGridOptions() {
     return {
-      rows: 2,
+      rows: 3,
+      min_rows: 3,
+      max_rows: 3,
       columns: 12,
-      min_rows: 2,
     };
   }
 
