@@ -7,6 +7,10 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
+function formatNumber(value: number): string {
+  return Number(value.toFixed(5)).toString();
+}
+
 function getOpenRatio(status: GateStatus): number {
   if (status.position !== null) {
     return clamp(status.position / 100, 0, 1);
@@ -31,30 +35,40 @@ function isPedOpening(rawState: string): boolean {
   return rawState.trim().toLowerCase() === "pedopening";
 }
 
-function buildWingTransform(
-  side: "left" | "right",
-  openness: number,
-  pivotX: number,
-  pivotY: number
-): string {
+/**
+ * Pure X scaling around a fixed hinge pivot.
+ * SVG matrix:
+ *   [ a c e ]
+ *   [ b d f ]
+ *   [ 0 0 1 ]
+ *
+ * For scaleX around pivotX:
+ *   a = scaleX
+ *   d = 1
+ *   e = pivotX * (1 - scaleX)
+ */
+function buildWingTransform(openness: number, pivotX: number): string {
   const t = clamp(openness, 0, 1);
 
+  // 1.0 = closed, near 0 = fully open from front view
   const minScale = 0.035;
   const scaleX = Math.max(minScale, Math.cos((t * Math.PI) / 2));
-  const skew = (side === "left" ? -1 : 1) * t * 7.5;
+  const translateX = pivotX * (1 - scaleX);
 
-  return [
-    `translate(${pivotX} ${pivotY})`,
-    `skewX(${skew})`,
-    `scale(${scaleX} 1)`,
-    `translate(${-pivotX} ${-pivotY})`,
-  ].join(" ");
+  return `matrix(${formatNumber(scaleX)} 0 0 1 ${formatNumber(translateX)} 0)`;
 }
 
 export function renderGateSvg(status: GateStatus, pedestrianSide: PedestrianSide) {
   const openRatio = getOpenRatio(status);
-  const pedestrianOpening = pedestrianSide !== false && status.moving && isPedOpening(status.rawState);
-  const pedestrianOpened = pedestrianSide !== false && status.pedOpened;
+
+  const pedestrianOpening =
+    pedestrianSide !== false &&
+    status.moving &&
+    isPedOpening(status.rawState);
+
+  const pedestrianOpened =
+    pedestrianSide !== false &&
+    status.pedOpened;
 
   const pedestrianActive = pedestrianOpening || pedestrianOpened;
   const pedestrianRatio = openRatio > 0 ? openRatio : 0.45;
@@ -71,8 +85,9 @@ export function renderGateSvg(status: GateStatus, pedestrianSide: PedestrianSide
       : 0
     : openRatio;
 
-  const leftTransform = buildWingTransform("left", leftRatio, 2252.13, 3896.42);
-  const rightTransform = buildWingTransform("right", rightRatio, 18265.3, 3896.42);
+  // Fixed hinge X coordinates
+  const leftTransform = buildWingTransform(leftRatio, 2252.13);
+  const rightTransform = buildWingTransform(rightRatio, 18265.30);
 
   const svgWithTransforms = GATE_SVG
     .replace(
