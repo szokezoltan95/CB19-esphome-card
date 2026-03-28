@@ -4,6 +4,7 @@ import { cardStyles } from "./styles";
 import type { Cb19GateCardConfig, GateEntities, GateStatus } from "./types";
 import { buildEntities } from "./utils/entities";
 import { computeGateStatus } from "./utils/state";
+import { renderGateSvg } from "./gate-svg";
 
 @customElement("cb19-gate-card")
 export class Cb19GateCard extends LitElement {
@@ -152,9 +153,7 @@ export class Cb19GateCard extends LitElement {
           </div>
 
           <div class="visual-box">
-            <div class="placeholder-gate">
-              SVG gate view will go here
-            </div>
+            ${renderGateSvg(status)}
           </div>
 
           ${this._config.show_status ? this._renderStatus(status) : nothing}

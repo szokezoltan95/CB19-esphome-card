@@ -38,13 +38,14 @@ export const cardStyles = css`
   }
 
   .visual-box {
-    min-height: 180px;
+    min-height: 220px;
     border-radius: 16px;
     background: var(--secondary-background-color);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
+    padding: 16px;
+    overflow: hidden;
   }
 
   .placeholder-gate {
@@ -119,5 +120,19 @@ export const cardStyles = css`
     font-size: 0.84rem;
     line-height: 1.5;
     word-break: break-word;
+  }
+  
+  .gate-svg-wrap {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gate-svg {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
   }
 `;
