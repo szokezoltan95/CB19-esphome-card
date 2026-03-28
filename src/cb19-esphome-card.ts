@@ -144,7 +144,7 @@ export class Cb19GateCard extends LitElement {
           : "grid-template-columns: repeat(3, minmax(0, 1fr));"}
       >
         <button
-          class="icon-btn primary"
+          class="icon-btn open"
           title="Open"
           @click=${() => this._pressButton(entities.openButton)}
         >
@@ -152,7 +152,7 @@ export class Cb19GateCard extends LitElement {
         </button>
 
         <button
-          class="icon-btn warn"
+          class="icon-btn stop"
           title="Stop"
           @click=${() => this._pressButton(entities.stopButton)}
         >
@@ -160,7 +160,7 @@ export class Cb19GateCard extends LitElement {
         </button>
 
         <button
-          class="icon-btn primary"
+          class="icon-btn close"
           title="Close"
           @click=${() => this._pressButton(entities.closeButton)}
         >
@@ -170,7 +170,7 @@ export class Cb19GateCard extends LitElement {
         ${showPedestrian
           ? html`
               <button
-                class="icon-btn"
+                class="icon-btn ped"
                 title="Pedestrian Open"
                 @click=${() => this._pressButton(entities.pedestrianButton)}
               >

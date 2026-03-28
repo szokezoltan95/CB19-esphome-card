@@ -31,7 +31,7 @@ export const cardStyles = css`
     width: 100%;
     min-height: 88px;
 
-    padding: 4px 8px 2px;
+    padding: 15px 12px 2px;
 
     display: flex;
     align-items: center;
@@ -165,35 +165,53 @@ export const cardStyles = css`
     appearance: none;
     border: none;
     border-radius: 12px;
-    min-height: 36px;
-    background: var(--secondary-background-color);
-    color: var(--primary-text-color);
+    min-height: 38px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
-    transition: transform 0.12s ease, background 0.12s ease;
+
+    color: #ffffff; /* ← minden ikon fehér */
+
+    transition:
+      transform 0.12s ease,
+      filter 0.12s ease,
+      box-shadow 0.12s ease;
+  }
+
+  .icon-btn.open {
+    background: #22c55e;
+    box-shadow: 0 2px 6px rgba(34, 197, 94, 0.35);
+  }
+
+  .icon-btn.stop {
+    background: #ef4444;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
+  }
+
+  .icon-btn.close {
+    background: #f59e0b; /* narancs */
+    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.35);
+  }
+
+  .icon-btn.ped {
+    background: #3b82f6; /* kék */
+    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.35);
   }
 
   .icon-btn:hover {
     transform: translateY(-1px);
+    filter: brightness(1.08);
   }
 
   .icon-btn:active {
     transform: translateY(0);
+    filter: brightness(0.95);
   }
 
-  .icon-btn.primary {
-    background: color-mix(in srgb, var(--primary-color) 16%, var(--card-background-color));
-    color: var(--primary-color);
-  }
-
-  .icon-btn.warn {
-    background: color-mix(in srgb, var(--error-color) 16%, var(--card-background-color));
-    color: var(--error-color);
-  }
-
-  ha-icon {
+  .icon-btn ha-icon {
     width: 20px;
     height: 20px;
   }
