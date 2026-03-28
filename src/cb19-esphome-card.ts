@@ -38,18 +38,15 @@ export class Cb19GateCard extends LitElement {
       ...config,
     };
   }
+  
   public getCardSize(): number {
-    return this._config?.show_debug ? 5 : 3;
+    return this._config?.show_debug ? 4 : 2;
   }
 
   public getGridOptions() {
-    const rows = this._config?.show_debug ? 5 : 3;
-
     return {
-      rows,
-      min_rows: rows,
-      max_rows: rows,
-      columns: 12,
+      columns: "full",
+      min_columns: 3,
     };
   }
 

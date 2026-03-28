@@ -22,7 +22,7 @@ export const cardStyles = css`
     display: grid;
     grid-template-rows: auto auto auto;
     gap: 6px;
-    padding: 8px 10px 8px;
+    padding: 12px 10px 8px;
     width: 100%;
   }
 

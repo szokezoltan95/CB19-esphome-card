@@ -592,7 +592,7 @@ const Gt = mt`
     display: grid;
     grid-template-rows: auto auto auto;
     gap: 6px;
-    padding: 8px 10px 8px;
+    padding: 12px 10px 8px;
     width: 100%;
   }
 
@@ -1081,15 +1081,12 @@ let R = class extends U {
     };
   }
   getCardSize() {
-    return this._config?.show_debug ? 5 : 3;
+    return this._config?.show_debug ? 4 : 2;
   }
   getGridOptions() {
-    const i = this._config?.show_debug ? 5 : 3;
     return {
-      rows: i,
-      min_rows: i,
-      max_rows: i,
-      columns: 12
+      columns: "full",
+      min_columns: 3
     };
   }
   get _entities() {
