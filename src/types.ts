@@ -7,6 +7,7 @@ export interface Cb19GateCardConfig {
   show_controls?: boolean;
   show_status?: boolean;
   show_debug?: boolean;
+  settings_device_entity?: string;
   motor1_side?: MotorSide;
   entities?: Partial<GateEntitiesConfig>;
 }

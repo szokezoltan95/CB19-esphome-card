@@ -169,64 +169,70 @@ export class Cb19GateCard extends LitElement {
     `;
   }
 
-  private async _openSettings(entities: GateEntities): Promise<void> {
-    if (!this._config || !this.hass) {
-      return;
-    }
+private async _openSettings(entities: GateEntities): Promise<void> {
+  if (!this._config || !this.hass) {
+    return;
+  }
 
-    const action = this._config.settings_action;
-    if (action === false) {
-      return;
-    }
+  const action = this._config.settings_action;
+  if (action === false) {
+    return;
+  }
 
-    if (action === "more_info") {
-      const entityId = this._config.settings_entity || entities.pedestrianMode;
-      this.dispatchEvent(
-        new CustomEvent("hass-more-info", {
-          bubbles: true,
-          composed: true,
-          detail: { entityId },
-        })
-      );
-      return;
-    }
+  // 👉 melyik entity legyen a device lookup alapja
+  const deviceEntity =
+    this._config.settings_device_entity ||
+    entities.openButton; // EZ A LÉNYEG → mindig működik
 
-    try {
-      const lookupEntity =
-        this._config.settings_entity ||
-        entities.gateState ||
-        entities.openButton;
+  // 👉 melyik entity legyen more-info fallback
+  const moreInfoEntity =
+    this._config.settings_entity ||
+    entities.pedestrianMode;
 
-      const entityRegistry = await this.hass.callWS({
-        type: "config/entity_registry/get",
-      });
-
-      const entityEntry = entityRegistry.find(
-        (item: any) => item.entity_id === lookupEntity
-      );
-
-      if (entityEntry?.device_id) {
-        window.history.pushState(
-          null,
-          "",
-          `/config/devices/device/${entityEntry.device_id}`
-        );
-        window.dispatchEvent(new Event("location-changed"));
-        return;
-      }
-    } catch (err) {
-      console.warn("CB19 Gate Card: failed to open device page", err);
-    }
-
-    const fallbackEntity = this._config.settings_entity || entities.pedestrianMode;
+  // --- MORE INFO mód ---
+  if (action === "more_info") {
     this.dispatchEvent(
       new CustomEvent("hass-more-info", {
         bubbles: true,
         composed: true,
-        detail: { entityId: fallbackEntity },
+        detail: { entityId: moreInfoEntity },
       })
     );
+    return;
   }
+
+  // --- DEVICE PAGE mód ---
+  try {
+    const registry = await this.hass.callWS({
+      type: "config/entity_registry/get",
+    });
+
+    const entry = registry.find(
+      (e: any) => e.entity_id === deviceEntity
+    );
+
+    if (entry?.device_id) {
+      window.history.pushState(
+        null,
+        "",
+        `/config/devices/device/${entry.device_id}`
+      );
+      window.dispatchEvent(new Event("location-changed"));
+      return;
+    }
+  } catch (err) {
+    console.warn("Device lookup failed", err);
+  }
+
+  // --- fallback ---
+  this.dispatchEvent(
+    new CustomEvent("hass-more-info", {
+      bubbles: true,
+      composed: true,
+      detail: { entityId: moreInfoEntity },
+    })
+  );
+}
 
   private _renderTopRow(entities: GateEntities) {
     if (this._config?.settings_action === false) {
