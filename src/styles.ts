@@ -7,121 +7,58 @@ export const cardStyles = css`
 
   ha-card {
     overflow: hidden;
+    border-radius: 16px;
   }
 
   .wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px;
+    display: grid;
+    grid-template-rows: auto auto auto auto;
+    gap: 8px;
+    padding: 10px 12px 10px;
   }
 
-  .header-row {
+  .flags-row {
+    min-height: 20px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
   }
 
-  .title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    line-height: 1.2;
-  }
-
-  .state-badge {
-    padding: 6px 10px;
+  .flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
     border-radius: 999px;
-    font-size: 0.85rem;
+    font-size: 0.72rem;
+    line-height: 1;
     font-weight: 600;
     background: var(--secondary-background-color);
+    color: var(--secondary-text-color);
+    white-space: nowrap;
+  }
+
+  .flag.warn {
+    background: color-mix(in srgb, var(--warning-color, #ff9800) 18%, transparent);
+    color: var(--warning-color, #ff9800);
+  }
+
+  .flag.error {
+    background: color-mix(in srgb, var(--error-color) 18%, transparent);
+    color: var(--error-color);
   }
 
   .visual-box {
-    min-height: 220px;
-    border-radius: 16px;
-    background: var(--secondary-background-color);
+    width: 100%;
+    min-height: 96px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px;
     overflow: hidden;
   }
 
-  .placeholder-gate {
-    width: 100%;
-    max-width: 420px;
-    height: 120px;
-    border-radius: 12px;
-    border: 2px dashed var(--divider-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--secondary-text-color);
-    font-size: 0.95rem;
-    text-align: center;
-    padding: 16px;
-  }
-
-  .status-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .status-item {
-    background: var(--secondary-background-color);
-    border-radius: 12px;
-    padding: 10px 12px;
-  }
-
-  .status-label {
-    font-size: 0.78rem;
-    color: var(--secondary-text-color);
-    margin-bottom: 4px;
-  }
-
-  .status-value {
-    font-size: 0.95rem;
-    font-weight: 600;
-  }
-
-  .controls {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  button.control-btn {
-    border: none;
-    border-radius: 14px;
-    padding: 12px 14px;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-    background: var(--primary-color);
-    color: var(--text-primary-color, white);
-  }
-
-  button.control-btn.secondary {
-    background: var(--secondary-background-color);
-    color: var(--primary-text-color);
-  }
-
-  button.control-btn.warn {
-    background: var(--error-color);
-    color: white;
-  }
-
-  .debug-box {
-    background: var(--secondary-background-color);
-    border-radius: 12px;
-    padding: 12px;
-    font-size: 0.84rem;
-    line-height: 1.5;
-    word-break: break-word;
-  }
-  
   .gate-svg-wrap {
     width: 100%;
     display: flex;
@@ -132,7 +69,86 @@ export const cardStyles = css`
   .gate-svg {
     display: block;
     width: 100%;
-    max-width: 640px;
+    max-width: none;
     height: auto;
+    max-height: 120px;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 20px;
+    font-size: 0.82rem;
+    line-height: 1;
+  }
+
+  .meta-state {
+    font-weight: 600;
+    color: var(--primary-text-color);
+    white-space: nowrap;
+  }
+
+  .meta-separator {
+    color: var(--secondary-text-color);
+  }
+
+  .meta-position {
+    color: var(--secondary-text-color);
+    white-space: nowrap;
+  }
+
+  .controls {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .icon-btn {
+    appearance: none;
+    border: none;
+    border-radius: 12px;
+    min-height: 40px;
+    background: var(--secondary-background-color);
+    color: var(--primary-text-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.12s ease;
+  }
+
+  .icon-btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .icon-btn:active {
+    transform: translateY(0);
+  }
+
+  .icon-btn.primary {
+    background: color-mix(in srgb, var(--primary-color) 16%, var(--card-background-color));
+    color: var(--primary-color);
+  }
+
+  .icon-btn.warn {
+    background: color-mix(in srgb, var(--error-color) 16%, var(--card-background-color));
+    color: var(--error-color);
+  }
+
+  ha-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .debug-box {
+    background: var(--secondary-background-color);
+    border-radius: 12px;
+    padding: 10px 12px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    word-break: break-word;
+    margin-top: 2px;
   }
 `;

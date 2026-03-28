@@ -28,14 +28,14 @@ export class Cb19GateCard extends LitElement {
   }
 
   public getCardSize(): number {
-    return 4;
+    return 2;
   }
 
   public getGridOptions() {
     return {
-      rows: 4,
-      columns: 6,
-      min_rows: 4,
+      rows: 2,
+      columns: 12,
+      min_rows: 2,
     };
   }
 
@@ -56,31 +56,52 @@ export class Cb19GateCard extends LitElement {
     });
   }
 
-  private _renderStatus(status: GateStatus) {
-    const positionText =
-      status.position === null ? "Unknown" : `${status.position.toFixed(0)}%`;
+  private _renderFlags(status: GateStatus) {
+    const flags = [];
+
+    if (status.photocell) {
+      flags.push(html`
+        <div class="flag warn">
+          <ha-icon icon="mdi:laser"></ha-icon>
+          <span>Photocell</span>
+        </div>
+      `);
+    }
+
+    if (status.obstruction) {
+      flags.push(html`
+        <div class="flag error">
+          <ha-icon icon="mdi:alert-octagon"></ha-icon>
+          <span>Obstruction</span>
+        </div>
+      `);
+    }
+
+    if (status.manualStop) {
+      flags.push(html`
+        <div class="flag">
+          <ha-icon icon="mdi:hand-back-right"></ha-icon>
+          <span>Stopped</span>
+        </div>
+      `);
+    }
 
     return html`
-      <div class="status-grid">
-        <div class="status-item">
-          <div class="status-label">Position</div>
-          <div class="status-value">${positionText}</div>
-        </div>
+      <div class="flags-row">
+        ${flags.length ? flags : nothing}
+      </div>
+    `;
+  }
 
-        <div class="status-item">
-          <div class="status-label">State</div>
-          <div class="status-value">${status.label}</div>
-        </div>
+  private _renderMeta(status: GateStatus) {
+    const positionText =
+      status.position === null ? "–" : `${status.position.toFixed(0)}%`;
 
-        <div class="status-item">
-          <div class="status-label">Photocell</div>
-          <div class="status-value">${status.photocell ? "Active" : "Idle"}</div>
-        </div>
-
-        <div class="status-item">
-          <div class="status-label">Obstruction</div>
-          <div class="status-value">${status.obstruction ? "Detected" : "None"}</div>
-        </div>
+    return html`
+      <div class="meta-row">
+        <div class="meta-state">${status.label}</div>
+        <div class="meta-separator">•</div>
+        <div class="meta-position">${positionText}</div>
       </div>
     `;
   }
@@ -89,31 +110,35 @@ export class Cb19GateCard extends LitElement {
     return html`
       <div class="controls">
         <button
-          class="control-btn"
+          class="icon-btn primary"
+          title="Open"
           @click=${() => this._pressButton(entities.openButton)}
         >
-          Open
+          <ha-icon icon="mdi:gate-open"></ha-icon>
         </button>
 
         <button
-          class="control-btn secondary"
-          @click=${() => this._pressButton(entities.pedestrianButton)}
-        >
-          Pedestrian
-        </button>
-
-        <button
-          class="control-btn secondary"
-          @click=${() => this._pressButton(entities.closeButton)}
-        >
-          Close
-        </button>
-
-        <button
-          class="control-btn warn"
+          class="icon-btn warn"
+          title="Stop"
           @click=${() => this._pressButton(entities.stopButton)}
         >
-          Stop
+          <ha-icon icon="mdi:stop"></ha-icon>
+        </button>
+
+        <button
+          class="icon-btn primary"
+          title="Close"
+          @click=${() => this._pressButton(entities.closeButton)}
+        >
+          <ha-icon icon="mdi:gate"></ha-icon>
+        </button>
+
+        <button
+          class="icon-btn"
+          title="Pedestrian Open"
+          @click=${() => this._pressButton(entities.pedestrianButton)}
+        >
+          <ha-icon icon="mdi:walk"></ha-icon>
         </button>
       </div>
     `;
@@ -142,21 +167,17 @@ export class Cb19GateCard extends LitElement {
     }
 
     const status = computeGateStatus(this.hass, entities);
-    const title = this._config.title || "Gate";
 
     return html`
       <ha-card>
         <div class="wrapper">
-          <div class="header-row">
-            <div class="title">${title}</div>
-            <div class="state-badge">${status.label}</div>
-          </div>
+          ${this._renderFlags(status)}
 
           <div class="visual-box">
             ${renderGateSvg(status)}
           </div>
 
-          ${this._config.show_status ? this._renderStatus(status) : nothing}
+          ${this._config.show_status ? this._renderMeta(status) : nothing}
           ${this._config.show_controls ? this._renderControls(entities) : nothing}
           ${this._config.show_debug ? this._renderDebug(entities, status) : nothing}
         </div>

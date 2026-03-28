@@ -10,7 +10,13 @@ function safeState(hass: any, entityId: string): string {
 
 function safeNumberState(hass: any, entityId: string): number | null {
   const value = hass?.states?.[entityId]?.state;
-  if (value === undefined || value === null || value === "" || value === "unknown" || value === "unavailable") {
+  if (
+    value === undefined ||
+    value === null ||
+    value === "" ||
+    value === "unknown" ||
+    value === "unavailable"
+  ) {
     return null;
   }
 
@@ -32,19 +38,18 @@ export function computeGateStatus(hass: any, entities: GateEntities): GateStatus
 
   const position = safeNumberState(hass, entities.gatePosition);
 
-  let label = rawState || "Unknown";
+  let label = "Unknown";
 
   if (obstruction) {
-    label = "Obstruction";
-  } else if (photocell) {
-    label = "Photocell active";
+    label = "Obstructed";
   } else if (manualStop) {
     label = "Stopped";
   } else if (moving) {
-    if (position !== null) {
-      if (position >= 100) {
+    if (rawState) {
+      const normalized = rawState.toLowerCase();
+      if (normalized.includes("open")) {
         label = "Opening";
-      } else if (position <= 0) {
+      } else if (normalized.includes("close")) {
         label = "Closing";
       } else {
         label = "Moving";
@@ -53,11 +58,13 @@ export function computeGateStatus(hass: any, entities: GateEntities): GateStatus
       label = "Moving";
     }
   } else if (pedOpened) {
-    label = "Pedestrian open";
+    label = "Ped Open";
   } else if (fullyOpened) {
     label = "Open";
   } else if (fullyClosed) {
     label = "Closed";
+  } else if (rawState) {
+    label = rawState;
   }
 
   return {
