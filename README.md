@@ -414,24 +414,6 @@ This makes the card especially suitable for wall tablets and dense dashboard lay
 
 ---
 
-## Development
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Build the card:
-
-```bash
-npm run build
-```
-
-After building, commit the generated `dist` file as well if you want HACS to load the latest version directly from the repository.
-
----
-
 ## Common Problems
 
 ### The card loads, but animation is wrong
@@ -474,8 +456,3 @@ The actual controller logic, entity creation, UART decoding, and parameter handl
 
 MIT
 
----
-
-## Author
-
-Zoltán Szőke
