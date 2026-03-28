@@ -95,32 +95,37 @@ export const cardStyles = css`
 
   .settings-btn {
     position: absolute;
-    top: 2px;
-    right: 2px;
-    z-index: 2;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+
     appearance: none;
     border: none;
-    background: color-mix(in srgb, var(--card-background-color) 84%, transparent);
+    background: none;
+
     color: var(--secondary-text-color);
-    width: 28px;
-    height: 28px;
-    border-radius: 999px;
+
+    width: 24px;
+    height: 24px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
+
     cursor: pointer;
-    transition: background 0.12s ease, color 0.12s ease, transform 0.12s ease;
+
+    transition: color 0.12s ease, transform 0.12s ease;
   }
 
   .settings-btn:hover {
-    background: var(--secondary-background-color);
     color: var(--primary-text-color);
-    transform: translateY(-1px);
+    transform: scale(1.08);
   }
 
   .settings-btn ha-icon {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+    display: block;
   }
 
   .meta-row {
