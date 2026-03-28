@@ -169,7 +169,7 @@ export class Cb19GateCard extends LitElement {
     `;
   }
 
-private async _openSettings(entities: GateEntities): Promise<void> {
+private _openSettings(entities: GateEntities): void {
   if (!this._config || !this.hass) {
     return;
   }
@@ -179,7 +179,14 @@ private async _openSettings(entities: GateEntities): Promise<void> {
     return;
   }
 
-  // More-info mód csak akkor fusson, ha kifejezetten ezt kéred
+  // 1. Ha közvetlen settings_path van megadva, mindig azt nyissuk meg
+  if (this._config.settings_path) {
+    window.history.pushState(null, "", this._config.settings_path);
+    window.dispatchEvent(new Event("location-changed"));
+    return;
+  }
+
+  // 2. Ha valaki kifejezetten more_info módot kér, akkor azt nyissuk
   if (action === "more_info") {
     const entityId =
       this._config.settings_entity ||
@@ -195,32 +202,10 @@ private async _openSettings(entities: GateEntities): Promise<void> {
     return;
   }
 
-  // Device page mód: mindig az open button entitás device-ját keressük
-  const lookupEntity =
-    this._config.settings_device_entity ||
-    entities.openButton;
-
-  try {
-    const registry = await this.hass.callWS({
-      type: "config/entity_registry/get",
-    });
-
-    const entry = registry.find((e: any) => e.entity_id === lookupEntity);
-
-    if (entry?.device_id) {
-      window.history.pushState(
-        null,
-        "",
-        `/config/devices/device/${entry.device_id}`
-      );
-      window.dispatchEvent(new Event("location-changed"));
-      return;
-    }
-
-    console.warn("CB19 Gate Card: no device_id found for", lookupEntity);
-  } catch (err) {
-    console.warn("CB19 Gate Card: device page lookup failed", err);
-  }
+  // 3. Ha nincs settings_path, device_page módban ne csináljunk semmi fallback varázslatot
+  console.warn(
+    "CB19 Gate Card: settings_action is device_page, but no settings_path is configured."
+  );
 }
 
   private _renderTopRow(entities: GateEntities) {

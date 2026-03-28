@@ -3,7 +3,7 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const z = globalThis, V = z.ShadowRoot && (z.ShadyCSS === void 0 || z.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, F = Symbol(), J = /* @__PURE__ */ new WeakMap();
+const B = globalThis, V = B.ShadowRoot && (B.ShadyCSS === void 0 || B.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, F = Symbol(), J = /* @__PURE__ */ new WeakMap();
 let ct = class {
   constructor(t, e, s) {
     if (this._$cssResult$ = !0, s !== F) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
@@ -32,7 +32,7 @@ const $t = (i) => new ct(typeof i == "string" ? i : i + "", void 0, F), mt = (i,
 }, vt = (i, t) => {
   if (V) i.adoptedStyleSheets = t.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
   else for (const e of t) {
-    const s = document.createElement("style"), o = z.litNonce;
+    const s = document.createElement("style"), o = B.litNonce;
     o !== void 0 && s.setAttribute("nonce", o), s.textContent = e.cssText, i.appendChild(s);
   }
 }, Y = V ? (i) => i : (i) => i instanceof CSSStyleSheet ? ((t) => {
@@ -262,14 +262,14 @@ E.elementStyles = [], E.shadowRootOptions = { mode: "open" }, E[O("elementProper
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const k = globalThis, et = (i) => i, D = k.trustedTypes, it = D ? D.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, ht = "$lit$", m = `lit$${Math.random().toFixed(9).slice(2)}$`, dt = "?" + m, Pt = `<${dt}>`, A = document, T = () => A.createComment(""), N = (i) => i === null || typeof i != "object" && typeof i != "function", K = Array.isArray, Ot = (i) => K(i) || typeof i?.[Symbol.iterator] == "function", W = `[ 	
+const M = globalThis, et = (i) => i, D = M.trustedTypes, it = D ? D.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, ht = "$lit$", m = `lit$${Math.random().toFixed(9).slice(2)}$`, dt = "?" + m, Pt = `<${dt}>`, A = document, T = () => A.createComment(""), N = (i) => i === null || typeof i != "object" && typeof i != "function", K = Array.isArray, Ot = (i) => K(i) || typeof i?.[Symbol.iterator] == "function", W = `[ 	
 \f\r]`, P = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, st = /-->/g, ot = />/g, y = RegExp(`>|${W}(?:([^\\s"'>=/]+)(${W}*=${W}*(?:[^ 	
-\f\r"'\`<>=]|("|')|))|$)`, "g"), rt = /'/g, nt = /"/g, pt = /^(?:script|style|textarea|title)$/i, kt = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), u = kt(1), x = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), at = /* @__PURE__ */ new WeakMap(), w = A.createTreeWalker(A, 129);
+\f\r"'\`<>=]|("|')|))|$)`, "g"), rt = /'/g, nt = /"/g, pt = /^(?:script|style|textarea|title)$/i, Mt = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), u = Mt(1), x = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), at = /* @__PURE__ */ new WeakMap(), w = A.createTreeWalker(A, 129);
 function ut(i, t) {
   if (!K(i) || !i.hasOwnProperty("raw")) throw Error("invalid template strings array");
   return it !== void 0 ? it.createHTML(t) : t;
 }
-const Mt = (i, t) => {
+const kt = (i, t) => {
   const e = i.length - 1, s = [];
   let o, r = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", n = P;
   for (let l = 0; l < e; l++) {
@@ -286,7 +286,7 @@ class R {
     let o;
     this.parts = [];
     let r = 0, n = 0;
-    const l = t.length - 1, a = this.parts, [h, p] = Mt(t, e);
+    const l = t.length - 1, a = this.parts, [h, p] = kt(t, e);
     if (this.el = R.createElement(h, s), w.currentNode = this.el.content, e === 2 || e === 3) {
       const c = this.el.content.firstChild;
       c.replaceWith(...c.childNodes);
@@ -341,7 +341,7 @@ class Ut {
     for (; a !== void 0; ) {
       if (n === a.index) {
         let h;
-        a.type === 2 ? h = new B(r, r.nextSibling, this, t) : a.type === 1 ? h = new a.ctor(r, a.name, a.strings, this, t) : a.type === 6 && (h = new Ht(r, this, t)), this._$AV.push(h), a = s[++l];
+        a.type === 2 ? h = new z(r, r.nextSibling, this, t) : a.type === 1 ? h = new a.ctor(r, a.name, a.strings, this, t) : a.type === 6 && (h = new Ht(r, this, t)), this._$AV.push(h), a = s[++l];
       }
       n !== a?.index && (r = w.nextNode(), n++);
     }
@@ -352,7 +352,7 @@ class Ut {
     for (const s of this._$AV) s !== void 0 && (s.strings !== void 0 ? (s._$AI(t, s, e), e += s.strings.length - 2) : s._$AI(t[e])), e++;
   }
 }
-class B {
+class z {
   get _$AU() {
     return this._$AM?._$AU ?? this._$Cv;
   }
@@ -398,7 +398,7 @@ class B {
     K(this._$AH) || (this._$AH = [], this._$AR());
     const e = this._$AH;
     let s, o = 0;
-    for (const r of t) o === e.length ? e.push(s = new B(this.O(T()), this.O(T()), this, this.options)) : s = e[o], s._$AI(r), o++;
+    for (const r of t) o === e.length ? e.push(s = new z(this.O(T()), this.O(T()), this, this.options)) : s = e[o], s._$AI(r), o++;
     o < e.length && (this._$AR(s && s._$AB.nextSibling, o), e.length = o);
   }
   _$AR(t = this._$AA.nextSibling, e) {
@@ -476,14 +476,14 @@ class Ht {
     C(this, t);
   }
 }
-const Bt = k.litHtmlPolyfillSupport;
-Bt?.(R, B), (k.litHtmlVersions ?? (k.litHtmlVersions = [])).push("3.3.2");
-const zt = (i, t, e) => {
+const zt = M.litHtmlPolyfillSupport;
+zt?.(R, z), (M.litHtmlVersions ?? (M.litHtmlVersions = [])).push("3.3.2");
+const Bt = (i, t, e) => {
   const s = e?.renderBefore ?? t;
   let o = s._$litPart$;
   if (o === void 0) {
     const r = e?.renderBefore ?? null;
-    s._$litPart$ = o = new B(t.insertBefore(T(), r), r, void 0, e ?? {});
+    s._$litPart$ = o = new z(t.insertBefore(T(), r), r, void 0, e ?? {});
   }
   return o._$AI(i), o;
 };
@@ -492,7 +492,7 @@ const zt = (i, t, e) => {
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const M = globalThis;
+const k = globalThis;
 let U = class extends E {
   constructor() {
     super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
@@ -504,7 +504,7 @@ let U = class extends E {
   }
   update(t) {
     const e = this.render();
-    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = zt(e, this.renderRoot, this.renderOptions);
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(t), this._$Do = Bt(e, this.renderRoot, this.renderOptions);
   }
   connectedCallback() {
     super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -516,10 +516,10 @@ let U = class extends E {
     return x;
   }
 };
-U._$litElement$ = !0, U.finalized = !0, M.litElementHydrateSupport?.({ LitElement: U });
-const jt = M.litElementPolyfillSupport;
+U._$litElement$ = !0, U.finalized = !0, k.litElementHydrateSupport?.({ LitElement: U });
+const jt = k.litElementPolyfillSupport;
 jt?.({ LitElement: U });
-(M.litElementVersions ?? (M.litElementVersions = [])).push("4.2.2");
+(k.litElementVersions ?? (k.litElementVersions = [])).push("4.2.2");
 /**
  * @license
  * Copyright 2017 Google LLC
@@ -1149,39 +1149,29 @@ let H = class extends U {
       </div>
     `;
   }
-  async _openSettings(i) {
+  _openSettings(i) {
     if (!this._config || !this.hass)
       return;
     const t = this._config.settings_action;
-    if (t === !1)
-      return;
-    if (t === "more_info") {
-      const s = this._config.settings_entity || i.pedestrianMode;
-      this.dispatchEvent(
-        new CustomEvent("hass-more-info", {
-          bubbles: !0,
-          composed: !0,
-          detail: { entityId: s }
-        })
-      );
-      return;
-    }
-    const e = this._config.settings_device_entity || i.openButton;
-    try {
-      const o = (await this.hass.callWS({
-        type: "config/entity_registry/get"
-      })).find((r) => r.entity_id === e);
-      if (o?.device_id) {
-        window.history.pushState(
-          null,
-          "",
-          `/config/devices/device/${o.device_id}`
-        ), window.dispatchEvent(new Event("location-changed"));
+    if (t !== !1) {
+      if (this._config.settings_path) {
+        window.history.pushState(null, "", this._config.settings_path), window.dispatchEvent(new Event("location-changed"));
         return;
       }
-      console.warn("CB19 Gate Card: no device_id found for", e);
-    } catch (s) {
-      console.warn("CB19 Gate Card: device page lookup failed", s);
+      if (t === "more_info") {
+        const e = this._config.settings_entity || i.pedestrianMode;
+        this.dispatchEvent(
+          new CustomEvent("hass-more-info", {
+            bubbles: !0,
+            composed: !0,
+            detail: { entityId: e }
+          })
+        );
+        return;
+      }
+      console.warn(
+        "CB19 Gate Card: settings_action is device_page, but no settings_path is configured."
+      );
     }
   }
   _renderTopRow(i) {
