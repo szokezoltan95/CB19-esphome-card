@@ -31,7 +31,7 @@ export const cardStyles = css`
     width: 100%;
     min-height: 88px;
 
-    padding: 15px 12px 2px;
+    padding: 10px 12px 2px;
 
     display: flex;
     align-items: center;
@@ -161,61 +161,62 @@ export const cardStyles = css`
     gap: 8px;
   }
 
-  .icon-btn {
-    appearance: none;
-    border: none;
-    border-radius: 12px;
-    min-height: 38px;
+.icon-btn {
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  min-height: 36px;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    color: #ffffff; /* ← minden ikon fehér */
+  color: #ffffff;
 
-    transition:
-      transform 0.12s ease,
-      filter 0.12s ease,
-      box-shadow 0.12s ease;
-  }
+  transition:
+    transform 0.08s ease,
+    background 0.12s ease,
+    filter 0.12s ease;
+}
 
-  .icon-btn.open {
-    background: #22c55e;
-    box-shadow: 0 2px 6px rgba(34, 197, 94, 0.35);
-  }
+/* OPEN – mély zöld */
+.icon-btn.open {
+  background: #166534;
+}
 
-  .icon-btn.stop {
-    background: #ef4444;
-    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
-  }
+/* STOP – mély piros */
+.icon-btn.stop {
+  background: #7f1d1d;
+}
 
-  .icon-btn.close {
-    background: #f59e0b; /* narancs */
-    box-shadow: 0 2px 6px rgba(245, 158, 11, 0.35);
-  }
+/* CLOSE – amber (nem rikító) */
+.icon-btn.close {
+  background: #92400e;
+}
 
-  .icon-btn.ped {
-    background: #3b82f6; /* kék */
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.35);
-  }
+/* PED – tompított kék */
+.icon-btn.ped {
+  background: #1e3a8a;
+}
 
-  .icon-btn:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.08);
-  }
+/* Hover */
+.icon-btn:hover {
+  filter: brightness(1.08);
+}
 
-  .icon-btn:active {
-    transform: translateY(0);
-    filter: brightness(0.95);
-  }
+/* Active */
+.icon-btn:active {
+  filter: brightness(0.92);
+  transform: scale(0.97);
+}
 
-  .icon-btn ha-icon {
-    width: 20px;
-    height: 20px;
-  }
-
+/* ikon */
+.icon-btn ha-icon {
+  width: 18px;
+  height: 18px;
+}
   .debug-box {
     background: var(--secondary-background-color);
     border-radius: 12px;
