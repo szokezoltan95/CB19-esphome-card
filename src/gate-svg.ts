@@ -7,34 +7,6 @@ function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
 }
 
-function formatNumber(value: number): string {
-  return Number(value.toFixed(4)).toString();
-}
-
-function buildWingTransform(
-  side: "left" | "right",
-  openness: number,
-  pivotX: number,
-  pivotY: number
-): string {
-  const t = clamp(openness, 0, 1);
-
-  const minScale = 0.04;
-  const scaleX = Math.max(minScale, Math.cos((t * Math.PI) / 2));
-
-  const skewDeg = (side === "left" ? -1 : 1) * t * 6;
-  const skewTan = Math.tan((skewDeg * Math.PI) / 180);
-
-  const a = scaleX;
-  const b = 0;
-  const c = skewTan;
-  const d = 1;
-  const e = pivotX - a * pivotX - c * pivotY;
-  const f = pivotY - d * pivotY;
-
-  return `matrix(${formatNumber(a)} ${formatNumber(b)} ${formatNumber(c)} ${formatNumber(d)} ${formatNumber(e)} ${formatNumber(f)})`;
-}
-
 function getOpenRatio(status: GateStatus): number {
   if (status.position !== null) {
     return clamp(status.position / 100, 0, 1);
@@ -48,29 +20,54 @@ function getOpenRatio(status: GateStatus): number {
     return 0;
   }
 
+  if (status.pedOpened) {
+    return 0.45;
+  }
+
   return 0;
 }
 
-function isPedestrianState(rawState: string): boolean {
-  const s = rawState.trim().toLowerCase();
-  return s === "pedopening" || s === "pedopened" || s === "pedopen";
+function isPedOpening(rawState: string): boolean {
+  return rawState.trim().toLowerCase() === "pedopening";
+}
+
+function buildWingTransform(
+  side: "left" | "right",
+  openness: number,
+  pivotX: number,
+  pivotY: number
+): string {
+  const t = clamp(openness, 0, 1);
+
+  const minScale = 0.035;
+  const scaleX = Math.max(minScale, Math.cos((t * Math.PI) / 2));
+  const skew = (side === "left" ? -1 : 1) * t * 7.5;
+
+  return [
+    `translate(${pivotX} ${pivotY})`,
+    `skewX(${skew})`,
+    `scale(${scaleX} 1)`,
+    `translate(${-pivotX} ${-pivotY})`,
+  ].join(" ");
 }
 
 export function renderGateSvg(status: GateStatus, pedestrianSide: PedestrianSide) {
   const openRatio = getOpenRatio(status);
-  const pedestrianActive = pedestrianSide !== false && isPedestrianState(status.rawState);
+  const pedestrianOpening = pedestrianSide !== false && status.moving && isPedOpening(status.rawState);
+  const pedestrianOpened = pedestrianSide !== false && status.pedOpened;
 
-  const pedestrianFallbackRatio = openRatio > 0 ? openRatio : 0.45;
+  const pedestrianActive = pedestrianOpening || pedestrianOpened;
+  const pedestrianRatio = openRatio > 0 ? openRatio : 0.45;
 
   const leftRatio = pedestrianActive
     ? pedestrianSide === "left"
-      ? pedestrianFallbackRatio
+      ? pedestrianRatio
       : 0
     : openRatio;
 
   const rightRatio = pedestrianActive
     ? pedestrianSide === "right"
-      ? pedestrianFallbackRatio
+      ? pedestrianRatio
       : 0
     : openRatio;
 
