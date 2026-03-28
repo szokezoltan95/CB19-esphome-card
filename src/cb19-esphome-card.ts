@@ -18,32 +18,30 @@ export class Cb19GateCard extends LitElement {
       throw new Error("Missing required option: controller");
     }
 
-    const pedestrianSide =
-      config.pedestrian_side === false
-        ? false
-        : config.pedestrian_side === "right"
-          ? "right"
-          : "left";
+    const motor1Side =
+      config.motor1_side === "right" ? "right" : "left";
 
     this._config = {
       title: "Gate",
       show_controls: true,
       show_status: true,
       show_debug: false,
-      pedestrian_side: pedestrianSide,
+      motor1_side: motor1Side,
       ...config,
     };
   }
 
   public getCardSize(): number {
-    return 3;
+    return this._config?.show_debug ? 5 : 3;
   }
 
   public getGridOptions() {
+    const rows = this._config?.show_debug ? 5 : 3;
+
     return {
-      rows: 3,
-      min_rows: 3,
-      max_rows: 3,
+      rows,
+      min_rows: rows,
+      max_rows: rows,
       columns: 12,
     };
   }
@@ -115,8 +113,8 @@ export class Cb19GateCard extends LitElement {
     `;
   }
 
-  private _renderControls(entities: GateEntities) {
-    const showPedestrian = this._config?.pedestrian_side !== false;
+  private _renderControls(entities: GateEntities, status: GateStatus) {
+    const showPedestrian = status.pedestrianEnabled;
 
     return html`
       <div
@@ -168,8 +166,13 @@ export class Cb19GateCard extends LitElement {
     return html`
       <div class="debug-box">
         <div><strong>Controller:</strong> ${this._config?.controller}</div>
+        <div><strong>Motor1 side:</strong> ${this._config?.motor1_side}</div>
         <div><strong>Gate state entity:</strong> ${entities.gateState}</div>
         <div><strong>Gate position entity:</strong> ${entities.gatePosition}</div>
+        <div><strong>Motor1 position entity:</strong> ${entities.motor1Position}</div>
+        <div><strong>Motor2 position entity:</strong> ${entities.motor2Position}</div>
+        <div><strong>Pedestrian mode entity:</strong> ${entities.pedestrianMode}</div>
+        <div><strong>Pedestrian enabled:</strong> ${status.pedestrianEnabled ? "yes" : "no"}</div>
         <div><strong>Last ACK:</strong> ${status.lastAck || "-"}</div>
         <div><strong>Raw state:</strong> ${status.rawState || "-"}</div>
       </div>
@@ -194,11 +197,11 @@ export class Cb19GateCard extends LitElement {
           ${this._renderFlags(status)}
 
           <div class="visual-box">
-            ${renderGateSvg(status, this._config?.pedestrian_side ?? "left")}
+            ${renderGateSvg(status, this._config?.motor1_side ?? "left")}
           </div>
 
           ${this._config.show_status ? this._renderMeta(status) : nothing}
-          ${this._config.show_controls ? this._renderControls(entities) : nothing}
+          ${this._config.show_controls ? this._renderControls(entities, status) : nothing}
           ${this._config.show_debug ? this._renderDebug(entities, status) : nothing}
         </div>
       </ha-card>

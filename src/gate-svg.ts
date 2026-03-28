@@ -1,7 +1,7 @@
 import { html } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 import { GATE_SVG } from "./gate-art";
-import type { GateStatus, PedestrianSide } from "./types";
+import type { GateStatus, MotorSide } from "./types";
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -11,24 +11,11 @@ function formatNumber(value: number): string {
   return Number(value.toFixed(5)).toString();
 }
 
-function getOpenRatio(status: GateStatus): number {
-  if (status.position !== null) {
-    return clamp(status.position / 100, 0, 1);
+function getWingOpenRatio(position: number | null, fallback: number): number {
+  if (position !== null) {
+    return clamp(position / 100, 0, 1);
   }
-
-  if (status.fullyOpened) {
-    return 1;
-  }
-
-  if (status.fullyClosed) {
-    return 0;
-  }
-
-  if (status.pedOpened) {
-    return 0.45;
-  }
-
-  return 0;
+  return fallback;
 }
 
 function isPedOpening(rawState: string): boolean {
@@ -59,32 +46,45 @@ function buildRightWingStyle(openness: number): string {
   ].join("; ");
 }
 
-export function renderGateSvg(status: GateStatus, pedestrianSide: PedestrianSide) {
-  const openRatio = getOpenRatio(status);
+export function renderGateSvg(status: GateStatus, motor1Side: MotorSide) {
+  const fallbackGlobalRatio =
+    status.position !== null
+      ? clamp(status.position / 100, 0, 1)
+      : status.fullyOpened
+        ? 1
+        : status.fullyClosed
+          ? 0
+          : status.pedOpened
+            ? 0.45
+            : 0;
 
-  const pedestrianOpening =
-    pedestrianSide !== false &&
-    status.moving &&
-    isPedOpening(status.rawState);
+  const motor1Ratio = getWingOpenRatio(status.motor1Position, fallbackGlobalRatio);
+  const motor2Ratio = getWingOpenRatio(status.motor2Position, fallbackGlobalRatio);
 
-  const pedestrianOpened =
-    pedestrianSide !== false &&
-    status.pedOpened;
+  const pedOpening = status.moving && isPedOpening(status.rawState);
+  const pedOpened = status.pedOpened;
+  const pedestrianActive = status.pedestrianEnabled && (pedOpening || pedOpened);
 
-  const pedestrianActive = pedestrianOpening || pedestrianOpened;
-  const pedestrianRatio = openRatio > 0 ? openRatio : 0.45;
+  let leftRatio: number;
+  let rightRatio: number;
 
-  const leftRatio = pedestrianActive
-    ? pedestrianSide === "left"
-      ? pedestrianRatio
-      : 0
-    : openRatio;
-
-  const rightRatio = pedestrianActive
-    ? pedestrianSide === "right"
-      ? pedestrianRatio
-      : 0
-    : openRatio;
+  if (pedestrianActive) {
+    if (motor1Side === "left") {
+      leftRatio = motor1Ratio;
+      rightRatio = 0;
+    } else {
+      leftRatio = 0;
+      rightRatio = motor1Ratio;
+    }
+  } else {
+    if (motor1Side === "left") {
+      leftRatio = motor1Ratio;
+      rightRatio = motor2Ratio;
+    } else {
+      leftRatio = motor2Ratio;
+      rightRatio = motor1Ratio;
+    }
+  }
 
   const leftStyle = buildLeftWingStyle(leftRatio);
   const rightStyle = buildRightWingStyle(rightRatio);

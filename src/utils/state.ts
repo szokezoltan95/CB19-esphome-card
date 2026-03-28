@@ -39,6 +39,11 @@ function normalizeMovingLabel(rawState: string): string {
   }
 }
 
+function isPedestrianModeEnabled(mode: string): boolean {
+  const s = mode.trim().toLowerCase();
+  return s.includes("enabled");
+}
+
 export function computeGateStatus(hass: any, entities: GateEntities): GateStatus {
   const rawState = safeState(hass, entities.gateState);
   const lastAck = safeState(hass, entities.lastAck);
@@ -51,7 +56,12 @@ export function computeGateStatus(hass: any, entities: GateEntities): GateStatus
   const photocell = isOn(safeState(hass, entities.photocell));
   const obstruction = isOn(safeState(hass, entities.obstruction));
 
+  const pedestrianMode = safeState(hass, entities.pedestrianMode);
+  const pedestrianEnabled = isPedestrianModeEnabled(pedestrianMode);
+
   const position = safeNumberState(hass, entities.gatePosition);
+  const motor1Position = safeNumberState(hass, entities.motor1Position);
+  const motor2Position = safeNumberState(hass, entities.motor2Position);
 
   let label = "Unknown";
 
@@ -73,6 +83,8 @@ export function computeGateStatus(hass: any, entities: GateEntities): GateStatus
 
   return {
     position,
+    motor1Position,
+    motor2Position,
     rawState,
     label,
     moving,
@@ -82,6 +94,7 @@ export function computeGateStatus(hass: any, entities: GateEntities): GateStatus
     manualStop,
     photocell,
     obstruction,
+    pedestrianEnabled,
     lastAck,
   };
 }

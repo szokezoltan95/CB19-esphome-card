@@ -1,4 +1,4 @@
-export type PedestrianSide = "left" | "right" | false;
+export type MotorSide = "left" | "right";
 
 export interface Cb19GateCardConfig {
   type: string;
@@ -7,12 +7,14 @@ export interface Cb19GateCardConfig {
   show_controls?: boolean;
   show_status?: boolean;
   show_debug?: boolean;
-  pedestrian_side?: PedestrianSide;
+  motor1_side?: MotorSide;
   entities?: Partial<GateEntitiesConfig>;
 }
 
 export interface GateEntitiesConfig {
   gate_position: string;
+  motor1_position: string;
+  motor2_position: string;
   gate_state: string;
   last_ack: string;
   moving: string;
@@ -22,6 +24,7 @@ export interface GateEntitiesConfig {
   manual_stop: string;
   photocell: string;
   obstruction: string;
+  pedestrian_mode: string;
   open_button: string;
   close_button: string;
   stop_button: string;
@@ -30,6 +33,8 @@ export interface GateEntitiesConfig {
 
 export interface GateEntities {
   gatePosition: string;
+  motor1Position: string;
+  motor2Position: string;
   gateState: string;
   lastAck: string;
   moving: string;
@@ -39,6 +44,7 @@ export interface GateEntities {
   manualStop: string;
   photocell: string;
   obstruction: string;
+  pedestrianMode: string;
   openButton: string;
   closeButton: string;
   stopButton: string;
@@ -47,6 +53,8 @@ export interface GateEntities {
 
 export interface GateStatus {
   position: number | null;
+  motor1Position: number | null;
+  motor2Position: number | null;
   rawState: string;
   label: string;
   moving: boolean;
@@ -56,5 +64,6 @@ export interface GateStatus {
   manualStop: boolean;
   photocell: boolean;
   obstruction: boolean;
+  pedestrianEnabled: boolean;
   lastAck: string;
 }

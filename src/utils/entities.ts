@@ -7,6 +7,10 @@ export function buildEntities(config: Cb19GateCardConfig): GateEntities {
   return {
     gatePosition:
       overrides.gate_position ?? `sensor.${controller}_gate_position`,
+    motor1Position:
+      overrides.motor1_position ?? `sensor.${controller}_motor1_position`,
+    motor2Position:
+      overrides.motor2_position ?? `sensor.${controller}_motor2_position`,
     gateState:
       overrides.gate_state ?? `sensor.${controller}_gate_state`,
     lastAck:
@@ -25,6 +29,8 @@ export function buildEntities(config: Cb19GateCardConfig): GateEntities {
       overrides.photocell ?? `binary_sensor.${controller}_photocell`,
     obstruction:
       overrides.obstruction ?? `binary_sensor.${controller}_obstruction`,
+    pedestrianMode:
+      overrides.pedestrian_mode ?? `select.${controller}_fc_pedestrian_mode`,
     openButton:
       overrides.open_button ?? `button.${controller}_open`,
     closeButton:
