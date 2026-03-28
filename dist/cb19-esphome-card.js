@@ -601,7 +601,7 @@ const Gt = mt`
     width: 100%;
     min-height: 88px;
 
-    padding: 10px 12px 2px;
+    padding: 8px 12px 0px;
 
     display: flex;
     align-items: center;
