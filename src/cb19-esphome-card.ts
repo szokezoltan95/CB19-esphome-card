@@ -21,16 +21,23 @@ export class Cb19GateCard extends LitElement {
     const motor1Side =
       config.motor1_side === "right" ? "right" : "left";
 
+    const settingsAction =
+      config.settings_action === false
+        ? false
+        : config.settings_action === "more_info"
+          ? "more_info"
+          : "device_page";
+
     this._config = {
       title: "Gate",
       show_controls: true,
       show_status: true,
       show_debug: false,
       motor1_side: motor1Side,
+      settings_action: settingsAction,
       ...config,
     };
   }
-
   public getCardSize(): number {
     return this._config?.show_debug ? 5 : 3;
   }
@@ -162,6 +169,83 @@ export class Cb19GateCard extends LitElement {
     `;
   }
 
+  private async _openSettings(entities: GateEntities): Promise<void> {
+    if (!this._config || !this.hass) {
+      return;
+    }
+
+    const action = this._config.settings_action;
+    if (action === false) {
+      return;
+    }
+
+    if (action === "more_info") {
+      const entityId = this._config.settings_entity || entities.pedestrianMode;
+      this.dispatchEvent(
+        new CustomEvent("hass-more-info", {
+          bubbles: true,
+          composed: true,
+          detail: { entityId },
+        })
+      );
+      return;
+    }
+
+    try {
+      const lookupEntity =
+        this._config.settings_entity ||
+        entities.gateState ||
+        entities.openButton;
+
+      const entityRegistry = await this.hass.callWS({
+        type: "config/entity_registry/get",
+      });
+
+      const entityEntry = entityRegistry.find(
+        (item: any) => item.entity_id === lookupEntity
+      );
+
+      if (entityEntry?.device_id) {
+        window.history.pushState(
+          null,
+          "",
+          `/config/devices/device/${entityEntry.device_id}`
+        );
+        window.dispatchEvent(new Event("location-changed"));
+        return;
+      }
+    } catch (err) {
+      console.warn("CB19 Gate Card: failed to open device page", err);
+    }
+
+    const fallbackEntity = this._config.settings_entity || entities.pedestrianMode;
+    this.dispatchEvent(
+      new CustomEvent("hass-more-info", {
+        bubbles: true,
+        composed: true,
+        detail: { entityId: fallbackEntity },
+      })
+    );
+  }
+
+  private _renderTopRow(entities: GateEntities) {
+    if (this._config?.settings_action === false) {
+      return html`<div class="top-row"></div>`;
+    }
+
+    return html`
+      <div class="top-row">
+        <button
+          class="settings-btn"
+          title="Settings"
+          @click=${() => this._openSettings(entities)}
+        >
+          <ha-icon icon="mdi:cog"></ha-icon>
+        </button>
+      </div>
+    `;
+  }
+
   private _renderDebug(entities: GateEntities, status: GateStatus) {
     return html`
       <div class="debug-box">
@@ -194,6 +278,7 @@ export class Cb19GateCard extends LitElement {
     return html`
       <ha-card>
         <div class="wrapper">
+          ${this._renderTopRow(entities)}
           ${this._renderFlags(status)}
 
           <div class="visual-box">

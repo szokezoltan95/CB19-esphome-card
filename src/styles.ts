@@ -18,9 +18,41 @@ export const cardStyles = css`
     border-radius: 16px;
   }
 
+  .top-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 20px;
+  }
+
+  .settings-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: var(--secondary-text-color);
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+
+  .settings-btn:hover {
+    background: var(--secondary-background-color);
+    color: var(--primary-text-color);
+  }
+
+  .settings-btn ha-icon {
+    width: 18px;
+    height: 18px;
+  }
+
   .wrapper {
     display: grid;
-    grid-template-rows: auto auto auto auto;
+    grid-template-rows: auto auto auto auto auto;
     gap: 8px;
     padding: 10px 12px 10px;
     width: 100%;
