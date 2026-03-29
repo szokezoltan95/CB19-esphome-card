@@ -58,8 +58,14 @@ export function renderGateSvg(status: GateStatus, motor1Side: MotorSide) {
             ? 0.45
             : 0;
 
-  const motor1Ratio = getWingOpenRatio(status.motor1Position, fallbackGlobalRatio);
-  const motor2Ratio = getWingOpenRatio(status.motor2Position, fallbackGlobalRatio);
+  const motor1Ratio = getWingOpenRatio(
+    status.motor1Position,
+    fallbackGlobalRatio
+  );
+  const motor2Ratio = getWingOpenRatio(
+    status.motor2Position,
+    fallbackGlobalRatio
+  );
 
   const pedOpening = status.moving && isPedOpening(status.rawState);
   const pedOpened = status.pedOpened;

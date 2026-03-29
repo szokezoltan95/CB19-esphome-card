@@ -1,6 +1,6 @@
 {
   "name": "cb19-esphome-card",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Custom Home Assistant card for CB19 gate controllers integrated through ESPHome",
   "private": false,
   "type": "module",

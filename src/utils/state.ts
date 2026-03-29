@@ -1,4 +1,4 @@
-import type { GateEntities, GateStatus } from "../types";
+import type { AvailableActions, GateEntities, GateStatus } from "../types";
 
 function isOn(state: string | undefined): boolean {
   return state === "on";
@@ -40,8 +40,7 @@ function normalizeMovingLabel(rawState: string): string {
 }
 
 function isPedestrianModeEnabled(mode: string): boolean {
-  const s = mode.trim().toLowerCase();
-  return s.includes("enabled");
+  return mode.trim().toLowerCase().includes("enabled");
 }
 
 export function computeGateStatus(hass: any, entities: GateEntities): GateStatus {
@@ -96,5 +95,50 @@ export function computeGateStatus(hass: any, entities: GateEntities): GateStatus
     obstruction,
     pedestrianEnabled,
     lastAck,
+  };
+}
+
+export function computeAvailableActions(status: GateStatus): AvailableActions {
+  if (status.moving) {
+    return {
+      open: false,
+      stop: true,
+      close: false,
+      pedestrian: false,
+    };
+  }
+
+  if (status.fullyClosed) {
+    return {
+      open: true,
+      stop: false,
+      close: false,
+      pedestrian: status.pedestrianEnabled,
+    };
+  }
+
+  if (status.fullyOpened) {
+    return {
+      open: false,
+      stop: false,
+      close: true,
+      pedestrian: false,
+    };
+  }
+
+  if (status.pedOpened) {
+    return {
+      open: true,
+      stop: false,
+      close: true,
+      pedestrian: false,
+    };
+  }
+
+  return {
+    open: true,
+    stop: false,
+    close: true,
+    pedestrian: status.pedestrianEnabled,
   };
 }
