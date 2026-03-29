@@ -204,21 +204,17 @@ controller: cb19_gate
 ```yaml
 type: custom:cb19-esphome-card
 controller: cb19_gate
-motor1_side: left
-
+motor1_side: right
 settings_action: device_page
-settings_path: /config/devices/device/XXXX
-
+settings_path: /config/devices/device/xxxxx
 ui:
   view_mode: hybrid
-
   header:
     enabled: true
-    title: Main Gate
-    show_state: true
-    show_position: true
+    title: Kapu
+    show_state: false
+    show_position: false
     settings_button_position: header
-
   controls:
     enabled: true
     show_open: true
@@ -226,15 +222,51 @@ ui:
     show_close: true
     show_pedestrian: auto
     available_action_tint: true
-
   icons:
     open: mdi:arrow-expand-horizontal
     stop: mdi:stop
     close: mdi:arrow-collapse-horizontal
     pedestrian: mdi:walk
-
+  colors:
+    button_default:
+      open: rgba(255,255,255,0.1)
+      stop: rgba(255,255,255,0.1)
+      close: rgba(255,255,255,0.1)
+      pedestrian: rgba(255,255,255,0.1)
+    button_active:
+      open: rgba(34,197,94,0.7)
+      stop: rgba(239,68,68,0.7)
+      close: rgba(245,158,11,0.7)
+      pedestrian: rgba(59,130,246,0.7)
+    button_available:
+      open: rgba(34,197,94,0.7)
+      stop: rgba(239,68,68,0.7)
+      close: rgba(245,158,11,0.7)
+      pedestrian: rgba(59,130,246,0.7)
+    icon_default:
+      open: "#ffffff"
+      stop: "#aa3333"
+      close: "#ffffff"
+      pedestrian: "#ffffff"
+    icon_active:
+      open: "#ffffff"
+      stop: "#ffffff"
+      close: "#ffffff"
+      pedestrian: "#ffffff"
+    icon_available:
+      open: "#ffffff"
+      stop: "#ffffff"
+      close: "#ffffff"
+      pedestrian: "#ffffff"
   effects:
     active_action: pulse
+  padding:
+    card: 15px 15px 15px
+    visual: 5px 5px 5px
+    controls_top: 10px
+    header_bottom: "-3px"
+    content_gap: 3px
+
 ```
 
 ---
