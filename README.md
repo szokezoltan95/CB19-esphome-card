@@ -1,458 +1,176 @@
-# CB19 ESPHome Card
+# CB19 ESPHome Card 🚀
 
-A compact, animated Home Assistant Lovelace card for a dual-wing CB19 gate controller running a **custom ESPHome firmware**.
+[![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
+[![Version](https://img.shields.io/github/v/release/szokezoltan95/CB19-esphome-card)](https://github.com/szokezoltan95/CB19-esphome-card/releases)
 
-This card is built for a very specific ecosystem: it visualizes the decoded motor positions, gate state, safety signals, and control buttons exposed by my custom CB19 ESPHome component, then turns them into a compact wall-dashboard friendly control panel.
-
----
-
-## Important Compatibility Notice
-
-This card is **not** a generic CB19 card.
-
-It is designed to work properly **only** with this ESPHome project:
-
-**CB19-esphome**  
-<https://github.com/szokezoltan95/CB19-esphome>
-
-And currently, it is intended to work with the **`experimental`** branch of that repository.
-
-### What this means
-
-This card depends on:
-
-- specific entity names
-- decoded motor position sensors
-- decoded gate state values
-- custom binary sensors
-- custom select / button entities
-
-Because of that, the card will **not** behave correctly with:
-
-- stock CB19 controllers
-- random ESPHome YAMLs for CB19
-- other unofficial integrations
-- older or different branches of the ESPHome project
-
-If the required entities are missing or named differently, the animation, status display, pedestrian mode handling, and controls may break or show wrong information.
+A highly configurable Home Assistant Lovelace card for controlling and visualizing a dual-wing gate driven by a custom CB19 ESPHome firmware.
 
 ---
 
-## What the Card Does
+## ⚠️ Compatibility
 
-The card provides a compact gate control interface with:
+This card works **ONLY** with:
 
-- animated left and right gate wings
-- separate per-wing animation based on Motor1 and Motor2 positions
-- open / stop / close / pedestrian buttons
-- live gate status and position display
-- safety overlays for obstruction and photocell
-- a settings shortcut button
+https://github.com/szokezoltan95/CB19-esphome  
 
-The goal is to fit cleanly into a tablet dashboard without wasting vertical space.
+❌ Not compatible with stock CB19 or generic ESPHome setups.
 
 ---
 
-## How the Animation Works
+## ✨ Features
 
-The two gate wings are animated **independently**.
-
-That means the card does **not** simply animate both wings from one shared global gate percentage. Instead, each side is driven from its own motor position sensor.
-
-### Used motor position sensors
-
-- `sensor.<controller>_motor1_position`
-- `sensor.<controller>_motor2_position`
-
-### Why this matters
-
-This allows the card to correctly show:
-
-- slight timing differences between wings
-- real pedestrian opening behavior
-- asymmetric movement if one wing starts or finishes earlier
-- a more realistic gate animation overall
+- Dual motor animated wings
+- Fully configurable UI
+- Active action animations
+- Available action highlighting
+- Pedestrian mode support
+- Overlay warnings
+- Multiple layouts
+- Pixel-perfect tuning
 
 ---
 
-## Motor Mapping
+## 📦 Installation
 
-The card needs to know which side belongs to **Motor1**.
-
-This is configured using:
-
-```yaml
-motor1_side: left
-```
-
-or
-
-```yaml
-motor1_side: right
-```
-
-### Mapping table
-
-| Config value | Left wing uses | Right wing uses |
-|---|---|---|
-| `motor1_side: left` | Motor1 | Motor2 |
-| `motor1_side: right` | Motor2 | Motor1 |
-
-### Pedestrian mode
-
-Pedestrian opening always uses **Motor1**.
-
-So:
-
-- if `motor1_side: left`, pedestrian opening affects the **left** wing
-- if `motor1_side: right`, pedestrian opening affects the **right** wing
-
----
-
-## Status Logic
-
-The card does not rely only on one text sensor. It combines multiple signals to determine what to show.
-
-### Primary status sources
-
-These binary sensors take priority when determining the visible status:
-
-- `binary_sensor.<controller>_fully_closed`
-- `binary_sensor.<controller>_fully_opened`
-- `binary_sensor.<controller>_manual_stop`
-- `binary_sensor.<controller>_obstruction`
-- `binary_sensor.<controller>_ped_opened`
-- `binary_sensor.<controller>_photocell`
-
-### Moving state
-
-Only when:
-
-- `binary_sensor.<controller>_moving` is `on`
-
-the card looks at:
-
-- `sensor.<controller>_gate_state`
-
-to determine whether the operation is currently:
-
-- Opening
-- Closing
-- Ped Opening
-
-This makes the status display more robust and prevents the UI from depending too heavily on just one text state.
-
----
-
-## Pedestrian Button Visibility
-
-The pedestrian button is **not** shown only because of dashboard config.  
-It follows the controller configuration exposed by ESPHome.
-
-The card checks:
-
-- `select.<controller>_fc_pedestrian_mode`
-
-Expected values include:
-
-- `FC-0 | Disabled`
-- `FC-1 | Enabled (default)`
-
-### Behavior
-
-- if pedestrian mode is disabled, the pedestrian button is hidden
-- if pedestrian mode is enabled, the button appears automatically
-
----
-
-## Safety Indicators
-
-The card can show warning overlays directly on top of the gate graphic.
-
-### Overlay badges
-
-When active, these appear over the gate itself:
-
-- **Photocell**
-- **Obstruction**
-
-This is intentionally designed as an in-place blocking indicator instead of a detached status label, because both of these states represent conditions that directly affect gate movement.
-
----
-
-## Settings Button
-
-The settings button is designed to open the **Home Assistant device page** for the CB19 ESPHome device.
-
-The most reliable approach is to provide the device page path manually.
-
-### Recommended config
-
-```yaml
-settings_action: device_page
-settings_path: /config/devices/device/0123456789abcdef0123456789abcdef
-```
-
-### How to find the correct `settings_path`
-
-1. Open **Settings**
-2. Open **Devices & Services**
-3. Open the **ESPHome** integration
-4. Open your specific **CB19 gate controller** device
-5. Copy the page path from the browser address bar
-
-It will look similar to:
-
-```text
-/config/devices/device/0123456789abcdef0123456789abcdef
-```
-
-Then place that value into the card config.
-
-This is currently the most stable solution.
-
----
-
-## Installation
-
-### HACS installation
-
-1. Open **HACS**
-2. Go to **Frontend**
-3. Open the menu and choose **Custom repositories**
-4. Add this repository:
-
-```text
+### HACS
+Add custom repo:
 https://github.com/szokezoltan95/CB19-esphome-card
-```
 
-5. Select repository type:
-
-```text
-Dashboard
-```
-
-6. Install the card
-7. Refresh Home Assistant
+### Manual
+Copy:
+dist/cb19-esphome-card.js → /config/www/
 
 ---
 
-### Manual installation
-
-1. Copy the built file:
-
-```text
-dist/cb19-esphome-card.js
-```
-
-to your Home Assistant `www` folder, for example:
-
-```text
-/config/www/cb19-esphome-card.js
-```
-
-2. Add it as a Lovelace resource:
+## 🧩 Basic Usage
 
 ```yaml
-lovelace:
-  resources:
-    - url: /local/cb19-esphome-card.js
-      type: module
-```
-
-3. Reload Home Assistant
-
----
-
-## Required ESPHome Project
-
-This card is expected to be used together with:
-
-**Repository:**  
-<https://github.com/szokezoltan95/CB19-esphome>
-
-**Branch:**  
-`experimental`
-
-The card expects that project to expose the matching entities.
-
----
-
-## Expected Entities
-
-The exact list may evolve, but the card is built around entities such as:
-
-### Sensors
-
-- `sensor.<controller>_gate_position`
-- `sensor.<controller>_motor1_position`
-- `sensor.<controller>_motor2_position`
-- `sensor.<controller>_gate_state`
-- `sensor.<controller>_last_ack`
-
-### Binary sensors
-
-- `binary_sensor.<controller>_moving`
-- `binary_sensor.<controller>_fully_opened`
-- `binary_sensor.<controller>_fully_closed`
-- `binary_sensor.<controller>_ped_opened`
-- `binary_sensor.<controller>_manual_stop`
-- `binary_sensor.<controller>_photocell`
-- `binary_sensor.<controller>_obstruction`
-
-### Selects
-
-- `select.<controller>_fc_pedestrian_mode`
-
-### Buttons
-
-- `button.<controller>_open`
-- `button.<controller>_close`
-- `button.<controller>_stop`
-- `button.<controller>_pedestrian_open`
-
-If these entities are not present, or if they are named differently, you will need overrides or code changes.
-
----
-
-## Basic Dashboard Configuration
-
-Minimal example:
-
-```yaml
-type: custom:cb19-gate-card
+type: custom:cb19-esphome-card
 controller: cb19_gate
-motor1_side: left
-settings_action: device_page
-settings_path: /config/devices/device/0123456789abcdef0123456789abcdef
 ```
 
 ---
 
-## Configuration Options
+## ⚙️ ALL CONFIG OPTIONS (FULL TABLE)
 
-| Option | Required | Default | Description |
-|---|---|---|---|
-| `controller` | Yes | – | ESPHome device/entity prefix, for example `cb19_gate` |
-| `motor1_side` | No | `left` | Which visual wing corresponds to Motor1 |
-| `show_controls` | No | `true` | Show Open / Stop / Close / Pedestrian buttons |
-| `show_status` | No | `true` | Show compact status text and gate percentage |
-| `show_debug` | No | `false` | Show extra debugging information |
-| `settings_action` | No | `device_page` | Settings button behavior |
-| `settings_path` | No | – | Direct Home Assistant device page path |
-| `entities` | No | – | Optional manual entity overrides |
+| Key | Example | Description |
+|-----|--------|------------|
+| controller | cb19_gate | ESPHome prefix |
+| motor1_side | left | Motor1 side |
+
+| ui.view_mode | graphic | graphic / text / hybrid |
+
+| ui.header.enabled | true | Show header |
+| ui.header.title | Main Gate | Title |
+| ui.header.show_state | true | Show state |
+| ui.header.show_position | true | Show % |
+| ui.header.settings_button_position | header | header / graphic / none |
+
+| ui.controls.enabled | true | Enable controls |
+| ui.controls.show_open | true | Show open |
+| ui.controls.show_stop | true | Show stop |
+| ui.controls.show_close | true | Show close |
+| ui.controls.show_pedestrian | auto | auto / true / false |
+| ui.controls.available_action_tint | true | Highlight available |
+
+| ui.icons.open | mdi:arrow-expand-horizontal | Icon |
+| ui.icons.stop | mdi:stop | Icon |
+| ui.icons.close | mdi:arrow-collapse-horizontal | Icon |
+| ui.icons.pedestrian | mdi:walk | Icon |
+
+| ui.icon_tune.x | 0 | Global offset |
+| ui.icon_tune.y | 0 | Global offset |
+| ui.icon_tune.open_x | 0 | Offset |
+| ui.icon_tune.open_y | 0 | Offset |
+| ui.icon_tune.stop_x | 0 | Offset |
+| ui.icon_tune.stop_y | 0 | Offset |
+| ui.icon_tune.close_x | 0 | Offset |
+| ui.icon_tune.close_y | 0 | Offset |
+| ui.icon_tune.pedestrian_x | 0 | Offset |
+| ui.icon_tune.pedestrian_y | 0 | Offset |
+
+| ui.colors.icon_default | #ccc | Default color |
+| ui.colors.icon_active | #22c55e | Active color |
+| ui.colors.icon_available | #16a34a | Available color |
+
+| ui.effects.active_action | pulse | none / pulse / blink / glow |
+
+| ui.padding.card | "8px" | Outer padding |
+| ui.padding.visual | "10px" | Graphic padding |
+| ui.padding.controls_top | "2px" | Controls gap |
+| ui.padding.header_bottom | "4px" | Header gap |
+| ui.padding.content_gap | "6px" | Internal spacing |
 
 ---
 
-## Example Configurations
+## 🧪 Preset Configs
 
-### Standard setup with Motor1 on the left
+### Minimal
 
 ```yaml
-type: custom:cb19-gate-card
+type: custom:cb19-esphome-card
 controller: cb19_gate
-motor1_side: left
-settings_action: device_page
-settings_path: /config/devices/device/0123456789abcdef0123456789abcdef
+
+ui:
+  view_mode: text
+  header:
+    enabled: false
 ```
 
-### Standard setup with Motor1 on the right
+---
+
+### Clean Tablet UI
 
 ```yaml
-type: custom:cb19-gate-card
-controller: cb19_gate
-motor1_side: right
-settings_action: device_page
-settings_path: /config/devices/device/0123456789abcdef0123456789abcdef
+ui:
+  view_mode: hybrid
+  controls:
+    available_action_tint: true
+  effects:
+    active_action: pulse
 ```
 
-### Debugging layout
+---
+
+### Fancy Animated
 
 ```yaml
-type: custom:cb19-gate-card
-controller: cb19_gate
-motor1_side: left
+ui:
+  effects:
+    active_action: glow
+  colors:
+    icon_active:
+      open: "#22c55e"
+      close: "#f97316"
+```
+
+---
+
+## ⚙️ Settings Button
+
+Get device path from:
+
+Settings → Devices → ESPHome → Device page
+
+---
+
+## 🧪 Debug
+
+```yaml
 show_debug: true
-settings_action: device_page
-settings_path: /config/devices/device/0123456789abcdef0123456789abcdef
 ```
 
 ---
 
-## Manual Entity Overrides
+## 🛠️ Development
 
-If needed, entity IDs can be overridden in the config.
-
-Example:
-
-```yaml
-type: custom:cb19-gate-card
-controller: cb19_gate
-motor1_side: left
-entities:
-  motor1_position: sensor.my_gate_motor1_position
-  motor2_position: sensor.my_gate_motor2_position
-  gate_state: sensor.my_gate_gate_state
-  pedestrian_mode: select.my_gate_fc_pedestrian_mode
+```bash
+npm install
+npm run build
 ```
 
-This is mainly useful if your entity IDs differ from the default naming pattern.
-
 ---
 
-## UI Layout Notes
+## 👨‍💻 Author
 
-The card is intentionally designed to stay compact:
-
-- the gate graphic is the visual center
-- status text is directly below the graphic
-- controls are in a single compact row
-- obstruction and photocell are rendered as overlays
-- the settings button is placed over the graphic area to save vertical space
-
-This makes the card especially suitable for wall tablets and dense dashboard layouts.
-
----
-
-## Common Problems
-
-### The card loads, but animation is wrong
-
-Usually caused by one of these:
-
-- wrong `motor1_side`
-- incompatible ESPHome branch
-- missing or incorrect motor position sensors
-
-### The pedestrian button does not appear
-
-Check:
-
-- `select.<controller>_fc_pedestrian_mode`
-
-If it is disabled, the button is intentionally hidden.
-
-### The settings button does not open the correct page
-
-Use a direct `settings_path` copied from the Home Assistant device page.
-
-### The card shows wrong or missing states
-
-Make sure you are using the expected entity set from the `experimental` branch of the custom ESPHome project.
-
----
-
-## Project Scope
-
-This repository contains only the **frontend card**.
-
-The actual controller logic, entity creation, UART decoding, and parameter handling live in the separate ESPHome repository:
-
-<https://github.com/szokezoltan95/CB19-esphome>
-
----
-
-## License
-
-MIT
-
+Zoltán Szőke
