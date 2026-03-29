@@ -155,27 +155,22 @@ controller: cb19_gate
 | ui.colors.button_default.stop | Button background (idle) |
 | ui.colors.button_default.close | Button background (idle) |
 | ui.colors.button_default.pedestrian | Button background (idle) |
-
 | ui.colors.button_active.open | Button background (active action) |
 | ui.colors.button_active.stop | Button background (active action) |
 | ui.colors.button_active.close | Button background (active action) |
 | ui.colors.button_active.pedestrian | Button background (active action) |
-
 | ui.colors.button_available.open | Button background (available action) |
 | ui.colors.button_available.stop | Button background (available action) |
 | ui.colors.button_available.close | Button background (available action) |
 | ui.colors.button_available.pedestrian | Button background (available action) |
-
 | ui.colors.icon_default.open | Icon color (idle) |
 | ui.colors.icon_default.stop | Icon color (idle) |
 | ui.colors.icon_default.close | Icon color (idle) |
 | ui.colors.icon_default.pedestrian | Icon color (idle) |
-
 | ui.colors.icon_active.open | Icon color (active action) |
 | ui.colors.icon_active.stop | Icon color (active action) |
 | ui.colors.icon_active.close | Icon color (active action) |
 | ui.colors.icon_active.pedestrian | Icon color (active action) |
-
 | ui.colors.icon_available.open | Icon color (available action) |
 | ui.colors.icon_available.stop | Icon color (available action) |
 | ui.colors.icon_available.close | Icon color (available action) |
