@@ -32,8 +32,8 @@ export const DEFAULT_UI_CONFIG: CardUiConfig = {
   },
 
   icon_tune: {
-    x: 0,
-    y: 0,
+    x: -3,
+    y: -3,
     open_x: 0,
     open_y: 0,
     stop_x: 0,
@@ -45,23 +45,41 @@ export const DEFAULT_UI_CONFIG: CardUiConfig = {
   },
 
   colors: {
+    button_default: {
+      open: "var(--secondary-background-color)",
+      stop: "var(--secondary-background-color)",
+      close: "var(--secondary-background-color)",
+      pedestrian: "var(--secondary-background-color)",
+    },
+    button_active: {
+      open: "color-mix(in srgb, #22c55e 18%, var(--secondary-background-color))",
+      stop: "color-mix(in srgb, #ef4444 18%, var(--secondary-background-color))",
+      close: "color-mix(in srgb, #f59e0b 18%, var(--secondary-background-color))",
+      pedestrian: "color-mix(in srgb, #3b82f6 18%, var(--secondary-background-color))",
+    },
+    button_available: {
+      open: "color-mix(in srgb, #16a34a 12%, var(--secondary-background-color))",
+      stop: "color-mix(in srgb, #dc2626 12%, var(--secondary-background-color))",
+      close: "color-mix(in srgb, #d97706 12%, var(--secondary-background-color))",
+      pedestrian: "color-mix(in srgb, #2563eb 12%, var(--secondary-background-color))",
+    },
     icon_default: {
-      open: "var(--primary-text-color)",
-      stop: "var(--primary-text-color)",
-      close: "var(--primary-text-color)",
-      pedestrian: "var(--primary-text-color)",
+      open: "#ffffff",
+      stop: "#ffffff",
+      close: "#ffffff",
+      pedestrian: "#ffffff",
     },
     icon_active: {
-      open: "#22c55e",
-      stop: "#ef4444",
-      close: "#f59e0b",
-      pedestrian: "#3b82f6",
+      open: "#ffffff",
+      stop: "#ffffff",
+      close: "#ffffff",
+      pedestrian: "#ffffff",
     },
     icon_available: {
-      open: "#16a34a",
-      stop: "#dc2626",
-      close: "#d97706",
-      pedestrian: "#2563eb",
+      open: "#ffffff",
+      stop: "#ffffff",
+      close: "#ffffff",
+      pedestrian: "#ffffff",
     },
   },
 
@@ -146,6 +164,18 @@ export function resolveUiConfig(config: Cb19GateCardConfig): CardUiConfig {
     },
 
     colors: {
+      button_default: {
+        ...DEFAULT_UI_CONFIG.colors.button_default,
+        ...(ui.colors?.button_default ?? {}),
+      },
+      button_active: {
+        ...DEFAULT_UI_CONFIG.colors.button_active,
+        ...(ui.colors?.button_active ?? {}),
+      },
+      button_available: {
+        ...DEFAULT_UI_CONFIG.colors.button_available,
+        ...(ui.colors?.button_available ?? {}),
+      },
       icon_default: {
         ...DEFAULT_UI_CONFIG.colors.icon_default,
         ...(ui.colors?.icon_default ?? {}),

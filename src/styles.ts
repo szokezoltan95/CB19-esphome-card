@@ -223,25 +223,25 @@ export const cardStyles = css`
     gap: 8px;
   }
 
-  .icon-btn {
-    position: relative;
-    appearance: none;
-    border: none;
-    border-radius: 10px;
-    min-height: 36px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background: var(--secondary-background-color);
-    color: var(--primary-text-color);
-    transition:
-      transform 0.08s ease,
-      background 0.12s ease,
-      filter 0.12s ease,
-      color 0.12s ease,
-      box-shadow 0.12s ease;
-  }
+.icon-btn {
+  position: relative;
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--cb19-button-default-bg, var(--secondary-background-color));
+  color: var(--cb19-icon-default-color, var(--primary-text-color));
+  transition:
+    transform 0.08s ease,
+    background 0.12s ease,
+    filter 0.12s ease,
+    color 0.12s ease,
+    box-shadow 0.12s ease;
+}
 
   .icon-btn:hover {
     filter: brightness(1.06);
@@ -268,38 +268,35 @@ export const cardStyles = css`
     color: var(--cb19-icon-default-color, var(--primary-text-color));
   }
 
-  .icon-btn.is-available.tint-enabled {
-    background: color-mix(
-      in srgb,
-      var(--cb19-available-color, #3b82f6) 12%,
-      var(--secondary-background-color)
-    );
-    color: var(--cb19-available-color, var(--primary-text-color));
-  }
+.icon-btn.is-available.tint-enabled {
+  background: var(--cb19-button-available-bg, var(--secondary-background-color));
+  color: var(--cb19-icon-available-color, var(--cb19-icon-default-color, var(--primary-text-color)));
+}
 
-  .icon-btn.is-active {
-    background: color-mix(
-      in srgb,
-      var(--cb19-active-color, #3b82f6) 18%,
-      var(--secondary-background-color)
-    );
-    color: var(--cb19-active-color, var(--primary-text-color));
-  }
+.icon-btn.is-active {
+  background: var(--cb19-button-active-bg, var(--secondary-background-color));
+  color: var(--cb19-icon-active-color, var(--cb19-icon-default-color, var(--primary-text-color)));
+}
 
-  .icon-btn.is-active.effect-pulse {
-    animation: button-pulse 1.25s ease-in-out infinite;
-  }
+.icon-btn.is-active.effect-pulse {
+  animation: button-pulse 1.25s ease-in-out infinite;
+}
 
-  .icon-btn.is-active.effect-blink {
-    animation: button-blink 1s steps(2, start) infinite;
-  }
+.icon-btn.is-active.effect-blink {
+  animation: button-blink 1s steps(2, start) infinite;
+}
 
-  .icon-btn.is-active.effect-glow {
-    box-shadow: 0 0 0 1px
-        color-mix(in srgb, var(--cb19-active-color, #3b82f6) 35%, transparent),
-      0 0 12px
-        color-mix(in srgb, var(--cb19-active-color, #3b82f6) 28%, transparent);
-  }
+.icon-btn.is-active.effect-glow {
+  box-shadow: 0 0 0 1px
+      color-mix(in srgb, var(--cb19-active-color, #3b82f6) 35%, transparent),
+    0 0 12px
+      color-mix(in srgb, var(--cb19-active-color, #3b82f6) 28%, transparent);
+}
+
+.icon-btn.is-available:not(.is-active) {
+  animation: none !important;
+  box-shadow: none;
+}
 
   @keyframes button-pulse {
     0% {

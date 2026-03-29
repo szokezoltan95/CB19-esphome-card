@@ -109,9 +109,12 @@ export class Cb19GateCard extends LitElement {
             : t.pedestrian_y);
 
     return [
+      `--cb19-button-default-bg: ${this._ui.colors.button_default[action]}`,
+      `--cb19-button-active-bg: ${this._ui.colors.button_active[action]}`,
+      `--cb19-button-available-bg: ${this._ui.colors.button_available[action]}`,
       `--cb19-icon-default-color: ${this._ui.colors.icon_default[action]}`,
-      `--cb19-active-color: ${this._ui.colors.icon_active[action]}`,
-      `--cb19-available-color: ${this._ui.colors.icon_available[action]}`,
+      `--cb19-icon-active-color: ${this._ui.colors.icon_active[action]}`,
+      `--cb19-icon-available-color: ${this._ui.colors.icon_available[action]}`,
       `--cb19-icon-x: ${x}px`,
       `--cb19-icon-y: ${y}px`,
     ].join("; ");

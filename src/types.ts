@@ -127,6 +127,9 @@ export interface CardUiConfig {
   };
 
   colors: {
+    button_default: Record<ControlName, string>;
+    button_active: Record<ControlName, string>;
+    button_available: Record<ControlName, string>;
     icon_default: Record<ControlName, string>;
     icon_active: Record<ControlName, string>;
     icon_available: Record<ControlName, string>;
