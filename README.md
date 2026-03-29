@@ -2,6 +2,7 @@
 
 [![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
 [![Version](https://img.shields.io/github/v/release/szokezoltan95/CB19-esphome-card)](https://github.com/szokezoltan95/CB19-esphome-card/releases)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 A clean, compact and highly configurable Home Assistant Lovelace card for visualizing and controlling a dual-wing gate driven by a custom CB19 ESPHome firmware.
 
@@ -36,16 +37,17 @@ It depends on custom entities (motor positions, states, etc.).
 
 ## 📸 Screenshots
 
+| Closed | Opening | PedOpening |
+|--------|--------|------------|
+| ![Closed](images/closed.png) | ![Opening](images/opening.png) | ![PedOpening](images/pedopening.png) |
 
-![Closed](images/closed.png)
-![Opening](images/opening.png)
-![PedOpening](images/pedopening.png)
-![Closing](images/closing.png)
-![PedOpened](images/pedopened.png)
-![PedClosing](images/pedclosing.png)
-![Stopped](images/stopped.png)
-![Obstruction](images/obstruction.png)
-![Minimal](images/minimal.png)
+| Closing | PedOpened | PedClosing |
+|--------|-----------|------------|
+| ![Closing](images/closing.png) | ![PedOpened](images/pedopened.png) | ![PedClosing](images/pedclosing.png) |
+
+| Stopped | Obstruction | Minimal layout |
+|--------|-------------|---------|
+| ![Stopped](images/stopped.png) | ![Obstruction](images/obstructed.png) | ![Minimal](images/minimal.png) |
 
 
 ---
@@ -145,24 +147,39 @@ controller: cb19_gate
 
 ---
 
-### 🎯 Icon Position Tuning
-
-| Option | Description |
-|-------|------------|
-| ui.icon_tune.x / y | Global offset |
-| *_x / *_y | Per-button fine tuning |
-
----
-
 ### 🎨 Colors
 
 | Option | Description |
 |-------|------------|
-| icon_default | Base icon color |
-| icon_active | Active action color |
-| icon_available | Available action color |
+| ui.colors.button_default.open | Button background (idle) |
+| ui.colors.button_default.stop | Button background (idle) |
+| ui.colors.button_default.close | Button background (idle) |
+| ui.colors.button_default.pedestrian | Button background (idle) |
 
----
+| ui.colors.button_active.open | Button background (active action) |
+| ui.colors.button_active.stop | Button background (active action) |
+| ui.colors.button_active.close | Button background (active action) |
+| ui.colors.button_active.pedestrian | Button background (active action) |
+
+| ui.colors.button_available.open | Button background (available action) |
+| ui.colors.button_available.stop | Button background (available action) |
+| ui.colors.button_available.close | Button background (available action) |
+| ui.colors.button_available.pedestrian | Button background (available action) |
+
+| ui.colors.icon_default.open | Icon color (idle) |
+| ui.colors.icon_default.stop | Icon color (idle) |
+| ui.colors.icon_default.close | Icon color (idle) |
+| ui.colors.icon_default.pedestrian | Icon color (idle) |
+
+| ui.colors.icon_active.open | Icon color (active action) |
+| ui.colors.icon_active.stop | Icon color (active action) |
+| ui.colors.icon_active.close | Icon color (active action) |
+| ui.colors.icon_active.pedestrian | Icon color (active action) |
+
+| ui.colors.icon_available.open | Icon color (available action) |
+| ui.colors.icon_available.stop | Icon color (available action) |
+| ui.colors.icon_available.close | Icon color (available action) |
+| ui.colors.icon_available.pedestrian | Icon color (available action) |
 
 ### ✨ Effects
 
