@@ -46,13 +46,9 @@ It depends on custom entities (motor positions, states, etc.).
 | ![Closing](images/closing.png) | ![PedOpened](images/pedopened.png) | ![PedClosing](images/pedclosing.png) |
 
 | Stopped | Obstruction | Minimal layout |
-<<<<<<< HEAD
 |--------|-------------|---------|
 | ![Stopped](images/stopped.png) | ![Obstruction](images/obstructed.png) | ![Minimal](images/text.png) |
-=======
-|--------|-----------|------------|
-| ![Stopped](images/stopped.png) | ![Obstruction](images/obstructed.png) | ![Minimal](images/minimal.png) |
->>>>>>> 7e014eb75bdd25419f7782d8fd0a49c5e8d68d85
+
 
 
 ---
