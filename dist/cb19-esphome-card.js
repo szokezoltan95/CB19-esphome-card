@@ -22,7 +22,7 @@ let ht = class {
     return this.cssText;
   }
 };
-const $t = (i) => new ht(typeof i == "string" ? i : i + "", void 0, K), yt = (i, ...t) => {
+const mt = (i) => new ht(typeof i == "string" ? i : i + "", void 0, K), yt = (i, ...t) => {
   const e = i.length === 1 ? i[0] : t.reduce((o, s, n) => o + ((r) => {
     if (r._$cssResult$ === !0) return r.cssText;
     if (typeof r == "number") return r;
@@ -38,14 +38,14 @@ const $t = (i) => new ht(typeof i == "string" ? i : i + "", void 0, K), yt = (i,
 }, Y = X ? (i) => i : (i) => i instanceof CSSStyleSheet ? ((t) => {
   let e = "";
   for (const o of t.cssRules) e += o.cssText;
-  return $t(e);
+  return mt(e);
 })(i) : i;
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const { is: wt, defineProperty: At, getOwnPropertyDescriptor: St, getOwnPropertyNames: Et, getOwnPropertySymbols: Ct, getPrototypeOf: Pt } = Object, $ = globalThis, tt = $.trustedTypes, Ot = tt ? tt.emptyScript : "", kt = $.reactiveElementPolyfillSupport, M = (i, t) => i, D = { toAttribute(i, t) {
+const { is: wt, defineProperty: At, getOwnPropertyDescriptor: St, getOwnPropertyNames: Et, getOwnPropertySymbols: Ct, getPrototypeOf: Pt } = Object, m = globalThis, tt = m.trustedTypes, Ot = tt ? tt.emptyScript : "", kt = m.reactiveElementPolyfillSupport, M = (i, t) => i, D = { toAttribute(i, t) {
   switch (t) {
     case Boolean:
       i = i ? Ot : null;
@@ -74,7 +74,7 @@ const { is: wt, defineProperty: At, getOwnPropertyDescriptor: St, getOwnProperty
   }
   return e;
 } }, Z = (i, t) => !wt(i, t), et = { attribute: !0, type: String, converter: D, reflect: !1, useDefault: !1, hasChanged: Z };
-Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), $.litPropertyMetadata ?? ($.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
+Symbol.metadata ?? (Symbol.metadata = Symbol("metadata")), m.litPropertyMetadata ?? (m.litPropertyMetadata = /* @__PURE__ */ new WeakMap());
 let C = class extends HTMLElement {
   static addInitializer(t) {
     this._$Ei(), (this.l ?? (this.l = [])).push(t);
@@ -256,13 +256,13 @@ let C = class extends HTMLElement {
   firstUpdated(t) {
   }
 };
-C.elementStyles = [], C.shadowRootOptions = { mode: "open" }, C[M("elementProperties")] = /* @__PURE__ */ new Map(), C[M("finalized")] = /* @__PURE__ */ new Map(), kt?.({ ReactiveElement: C }), ($.reactiveElementVersions ?? ($.reactiveElementVersions = [])).push("2.1.2");
+C.elementStyles = [], C.shadowRootOptions = { mode: "open" }, C[M("elementProperties")] = /* @__PURE__ */ new Map(), C[M("finalized")] = /* @__PURE__ */ new Map(), kt?.({ ReactiveElement: C }), (m.reactiveElementVersions ?? (m.reactiveElementVersions = [])).push("2.1.2");
 /**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const U = globalThis, it = (i) => i, L = U.trustedTypes, ot = L ? L.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, pt = "$lit$", m = `lit$${Math.random().toFixed(9).slice(2)}$`, ut = "?" + m, Mt = `<${ut}>`, A = document, N = () => A.createComment(""), B = (i) => i === null || typeof i != "object" && typeof i != "function", J = Array.isArray, Ut = (i) => J(i) || typeof i?.[Symbol.iterator] == "function", V = `[ 	
+const U = globalThis, it = (i) => i, L = U.trustedTypes, ot = L ? L.createPolicy("lit-html", { createHTML: (i) => i }) : void 0, pt = "$lit$", $ = `lit$${Math.random().toFixed(9).slice(2)}$`, ut = "?" + $, Mt = `<${ut}>`, A = document, N = () => A.createComment(""), B = (i) => i === null || typeof i != "object" && typeof i != "function", J = Array.isArray, Ut = (i) => J(i) || typeof i?.[Symbol.iterator] == "function", V = `[ 	
 \f\r]`, k = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, st = /-->/g, nt = />/g, y = RegExp(`>|${V}(?:([^\\s"'>=/]+)(${V}*=${V}*(?:[^ 	
 \f\r"'\`<>=]|("|')|))|$)`, "g"), rt = /'/g, at = /"/g, _t = /^(?:script|style|textarea|title)$/i, Tt = (i) => (t, ...e) => ({ _$litType$: i, strings: t, values: e }), u = Tt(1), S = Symbol.for("lit-noChange"), d = Symbol.for("lit-nothing"), lt = /* @__PURE__ */ new WeakMap(), w = A.createTreeWalker(A, 129);
 function gt(i, t) {
@@ -277,7 +277,7 @@ const zt = (i, t) => {
     let h, _, p = -1, g = 0;
     for (; g < a.length && (r.lastIndex = g, _ = r.exec(a), _ !== null); ) g = r.lastIndex, r === k ? _[1] === "!--" ? r = st : _[1] !== void 0 ? r = nt : _[2] !== void 0 ? (_t.test(_[2]) && (s = RegExp("</" + _[2], "g")), r = y) : _[3] !== void 0 && (r = y) : r === y ? _[0] === ">" ? (r = s ?? k, p = -1) : _[1] === void 0 ? p = -2 : (p = r.lastIndex - _[2].length, h = _[1], r = _[3] === void 0 ? y : _[3] === '"' ? at : rt) : r === at || r === rt ? r = y : r === st || r === nt ? r = k : (r = y, s = void 0);
     const f = r === y && i[l + 1].startsWith("/>") ? " " : "";
-    n += r === k ? a + Mt : p >= 0 ? (o.push(h), a.slice(0, p) + pt + a.slice(p) + m + f) : a + m + (p === -2 ? l : f);
+    n += r === k ? a + Mt : p >= 0 ? (o.push(h), a.slice(0, p) + pt + a.slice(p) + $ + f) : a + $ + (p === -2 ? l : f);
   }
   return [gt(i, n + (i[e] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), o];
 };
@@ -294,11 +294,11 @@ class H {
     for (; (s = w.nextNode()) !== null && a.length < l; ) {
       if (s.nodeType === 1) {
         if (s.hasAttributes()) for (const p of s.getAttributeNames()) if (p.endsWith(pt)) {
-          const g = _[r++], f = s.getAttribute(p).split(m), E = /([.?@])?(.*)/.exec(g);
+          const g = _[r++], f = s.getAttribute(p).split($), E = /([.?@])?(.*)/.exec(g);
           a.push({ type: 1, index: n, name: E[2], strings: f, ctor: E[1] === "." ? Bt : E[1] === "?" ? Ht : E[1] === "@" ? Rt : I }), s.removeAttribute(p);
-        } else p.startsWith(m) && (a.push({ type: 6, index: n }), s.removeAttribute(p));
+        } else p.startsWith($) && (a.push({ type: 6, index: n }), s.removeAttribute(p));
         if (_t.test(s.tagName)) {
-          const p = s.textContent.split(m), g = p.length - 1;
+          const p = s.textContent.split($), g = p.length - 1;
           if (g > 0) {
             s.textContent = L ? L.emptyScript : "";
             for (let f = 0; f < g; f++) s.append(p[f], N()), w.nextNode(), a.push({ type: 2, index: ++n });
@@ -308,7 +308,7 @@ class H {
       } else if (s.nodeType === 8) if (s.data === ut) a.push({ type: 2, index: n });
       else {
         let p = -1;
-        for (; (p = s.data.indexOf(m, p + 1)) !== -1; ) a.push({ type: 7, index: n }), p += m.length - 1;
+        for (; (p = s.data.indexOf($, p + 1)) !== -1; ) a.push({ type: 7, index: n }), p += $.length - 1;
       }
       n++;
     }
@@ -956,12 +956,12 @@ function Kt(i) {
   return i.trim().toLowerCase().includes("enabled");
 }
 function Zt(i, t) {
-  const e = b(i, t.gateState), o = b(i, t.lastAck), s = x(b(i, t.moving)), n = x(b(i, t.fullyOpened)), r = x(b(i, t.fullyClosed)), l = x(b(i, t.pedOpened)), a = x(b(i, t.manualStop)), h = x(b(i, t.photocell)), _ = x(b(i, t.obstruction)), p = b(i, t.pedestrianMode), g = Kt(p), f = q(i, t.gatePosition), E = q(i, t.motor1Position), mt = q(i, t.motor2Position);
+  const e = b(i, t.gateState), o = b(i, t.lastAck), s = x(b(i, t.moving)), n = x(b(i, t.fullyOpened)), r = x(b(i, t.fullyClosed)), l = x(b(i, t.pedOpened)), a = x(b(i, t.manualStop)), h = x(b(i, t.photocell)), _ = x(b(i, t.obstruction)), p = b(i, t.pedestrianMode), g = Kt(p), f = q(i, t.gatePosition), E = q(i, t.motor1Position), $t = q(i, t.motor2Position);
   let v = "Unknown";
   return _ ? v = "Obstructed" : a ? v = "Stopped" : r ? v = "Closed" : n ? v = "Open" : l ? v = "Ped Open" : s ? v = Xt(e) : e && (v = e), {
     position: f,
     motor1Position: E,
-    motor2Position: mt,
+    motor2Position: $t,
     rawState: e,
     label: v,
     moving: s,
@@ -1363,9 +1363,8 @@ let O = class extends z {
   }
   getGridOptions() {
     return {
-      columns: 6,
-      min_columns: 3,
-      max_columns: 12
+      columns: "full",
+      min_columns: 3
     };
   }
   get _entities() {

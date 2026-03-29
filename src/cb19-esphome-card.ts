@@ -49,9 +49,8 @@ export class Cb19GateCard extends LitElement {
 
   public getGridOptions() {
     return {
-      columns: 6,
+      columns: "full",
       min_columns: 3,
-      max_columns: 12,
     };
   }
 
