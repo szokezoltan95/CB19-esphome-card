@@ -15,12 +15,12 @@ import { computeAvailableActions, computeGateStatus } from "./utils/state";
 import { renderGateSvg } from "./gate-svg";
 import { resolveUiConfig } from "./utils/ui-config";
 
-@customElement("cb19-gate-card")
+@customElement("cb19-esphome-card")
 export class Cb19GateCard extends LitElement {
   @property({ attribute: false }) public hass: any;
   @state() private _config?: Cb19GateCardConfig;
   @state() private _ui: CardUiConfig = resolveUiConfig({
-    type: "custom:cb19-gate-card",
+    type: "custom:cb19-esphome-card",
     controller: "cb19_gate",
   });
 
@@ -471,6 +471,6 @@ export class Cb19GateCard extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "cb19-gate-card": Cb19GateCard;
+    "cb19-esphome-card": Cb19GateCard;
   }
 }
